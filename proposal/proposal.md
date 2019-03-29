@@ -17,9 +17,10 @@ correlate to increased suicide rates among different cohorts globally,
 across the socio-economic spectrum” (Kaggle). Each occurrence provided
 represents the country, year, sex, age (in groups), number of suicides,
 population, suicide rate for 100 thousand people, country-year, gdp for
-the year, the gdp per capita, and the generation of a single suicide.
-This will allow us to look at a single occurrence, but also group based
-on incomes, gender, year, country, or some combination of the variables.
+the year (in USD), the gdp per capita (in USD), and the generation of a
+single suicide. This will allow us to look at a single occurrence, but
+also group based on incomes, gender, year, country, or some combination
+of the variables.
 
 Our overarching research question guiding our investigation is:
 
@@ -47,7 +48,10 @@ detailed collection information such as method as it is a compilation of
 other data. Furthermore, it is known that suicides sometimes go falsely
 reported or unreported at all- for instance, suicides have been
 occasionally reported as farming or hunting accidents- so we will be
-conscious of this as we conduct the investigation.
+conscious of this as we conduct the investigation. It has also come to
+our attention that not every nation is represented, which will limit our
+ability to compare truly worldwdide, but we will be able to prepare
+nation to nation and regions to region.
 
 The data can be found
 here:
