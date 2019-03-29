@@ -4,7 +4,7 @@ The data includes suicide information for each country based on year, sex, and a
 
 The original data sources is https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016
 
-There are 27,821 observations in this dataset and 12 variables.
+There are 27,820 observations in this dataset and 12 variables.
 
 The codebook is below:
 
