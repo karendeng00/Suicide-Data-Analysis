@@ -1,4 +1,4 @@
-McDonald’s Menu Analysis Project Proposal
+Suicide Data Analysis Project Proposal
 ================
 Stat Stars
 March 29th, 2019

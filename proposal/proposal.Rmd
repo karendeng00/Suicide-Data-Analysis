@@ -1,5 +1,5 @@
 ---
-title: "McDonald's Menu Analysis Project Proposal"
+title: "Suicide Data Analysis Project Proposal"
 author: "Stat Stars"
 date: "March 29th, 2019"
 output: github_document
