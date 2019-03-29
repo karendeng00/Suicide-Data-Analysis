@@ -16,11 +16,11 @@ Organization. The purpose of compiling the data was “to find signals
 correlate to increased suicide rates among different cohorts globally,
 across the socio-economic spectrum” (Kaggle). Each occurrence provided
 represents the country, year, sex, age (in groups), number of suicides,
-population, suicide rate for 100 thousand people, country-year, gdp for
-the year (in USD), the gdp per capita (in USD), and the generation of a
-single suicide. This will allow us to look at a single occurrence, but
-also group based on incomes, gender, year, country, or some combination
-of the variables.
+population, suicide rate for 100 thousand people, country-year, hdi
+(human development), gdp for the year (in USD), the gdp per capita (in
+USD), and the generation of a single suicide. This will allow us to look
+at a single occurrence, but also group based on incomes, gender, year,
+country, or some combination of the variables.
 
 Our overarching research question guiding our investigation is:
 
