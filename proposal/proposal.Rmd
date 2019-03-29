@@ -13,14 +13,13 @@ This dataset provides statistics for suicides worldwide between 1985 and 2016. I
 
 Our overarching research question guiding our investigation is: 
 
-do location, year, and economic situation contribute to suicide rates? 
+Do location, year, and economic situation contribute to suicide rates? 
 
 This research question will allow us to see where and when economic changes, like the crash in 2008 affected the suicide rate, and for how long. This is an important investigation to conduct because understanding the relationship between economics and mental health is important, given that so much of society is attached to and operated with the purpose of earning more money. Furthermore, it will allow us to see certain groups- like men or women, high or low socioeconomic status were affected more or less so than other groups. This will allow us to understand the impact economic changes has on the metal health and suicide rates. It will also be interesting to see the progression of changes in suicide rates and how a person of a certain intersection of identities is affected differently. We will be able to use linear modelling to make limited predictions of changes in suicide rates if a crash were to ocurr. We are purposely leaving the research question broad, so that we can compare a variety of the statistics and not become too focused too early on in the investigation. 
 
 We acknowledge the pitfalls of the data. For instance, there is not detailed collection information such as method as it is a compilation of other data. Furthermore, it is known that suicides sometimes go falsely reported or unreported at all- for instance, suicides have been occasionally reported as farming or hunting accidents- so we will be conscious of this as we conduct the investigation. It has also come to our attention that not every nation is represented, which will limit our ability to compare truly worldwdide, but we will be able to prepare nation to nation and regions to region. 
 
 The data can be found here:
-
 https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016 
 
 ## Section 2. Data analysis plan

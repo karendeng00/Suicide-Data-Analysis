@@ -24,7 +24,7 @@ country, or some combination of the variables.
 
 Our overarching research question guiding our investigation is:
 
-do location, year, and economic situation contribute to suicide rates?
+Do location, year, and economic situation contribute to suicide rates?
 
 This research question will allow us to see where and when economic
 changes, like the crash in 2008 affected the suicide rate, and for how
@@ -53,9 +53,7 @@ our attention that not every nation is represented, which will limit our
 ability to compare truly worldwdide, but we will be able to prepare
 nation to nation and regions to region.
 
-The data can be found
-here:
-
+The data can be found here:
 <https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016>
 
 ## Section 2. Data analysis plan
