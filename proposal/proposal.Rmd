@@ -26,3 +26,11 @@ https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016
 ## Section 2. Data analysis plan
 
 ## Section 3. Data
+
+Uploaded the data master.csv and save it to the suicides dataframe. Then glimpse.
+
+```{r load-data, message=FALSE}
+library(tidyverse)
+suicides <- read_csv("/cloud/project/data/master.csv")
+glimpse(suicides)
+```
