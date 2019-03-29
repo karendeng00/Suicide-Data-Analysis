@@ -3,6 +3,13 @@ Suicide Data Analysis Project Proposal
 Stat Stars
 March 29th, 2019
 
+### Load Data and Libraries
+
+``` r
+library(tidyverse)
+suicides <- read_csv("/cloud/project/data/master.csv")
+```
+
 ## Section 1. Introduction
 
 The introduction should introduce your general research question and
@@ -24,7 +31,8 @@ country, or some combination of the variables.
 
 Our overarching research question guiding our investigation is:
 
-Do location, year, and economic situation contribute to suicide rates?
+Do location, year, sex, and economic situation contribute to suicide
+rates?
 
 This research question will allow us to see where and when economic
 changes, like the crash in 2008 affected the suicide rate, and for how
@@ -50,13 +58,63 @@ reported or unreported at all- for instance, suicides have been
 occasionally reported as farming or hunting accidents- so we will be
 conscious of this as we conduct the investigation. It has also come to
 our attention that not every nation is represented, which will limit our
-ability to compare truly worldwdide, but we will be able to prepare
-nation to nation and regions to region.
+ability to compare truly worldwide, but we will be able to compare
+nation to nation and region to region.
 
 The data can be found here:
 <https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016>
 
 ## Section 2. Data analysis plan
+
+We plan to use a variety of variables to see how they impact number of
+suicides per 100,000 people of the population in different countries.
+Some of the variables we will explore are GDP per capita, gender,
+generation, and age. We will also see how trends in suicide rate vary by
+country.
+
+Exploratory Data Analysis: I first tried to find average number of
+suicides by country. However, the first result showed many numbers very
+very close to 1. This seems to be because the data is very specific. Not
+only does every country and year have its own number of suicides but so
+does every every and age group. This means that there are a lot of
+entries of 0 suicides in specific age group that cause the average to
+get very close to 0. To do broader analysis by year, we’re going to need
+to make new entries that have the total number of suicides in a given
+country in a year.
+
+When I did some exploratory analysis comparing sex and number of
+suicides, I made this boxplot. Clearly, males have many more large
+outliers than females do and also show a higher average number of
+suicides. This will be an interesting trend to explore and find the
+cause of.
+
+``` r
+suicides %>%
+  ggplot(aes(x = sex, y = `suicides/100k pop`)) +
+  geom_boxplot()
+```
+
+![](proposal_files/figure-gfm/suicide-by-sex-1.png)<!-- -->
+
+I also did some data analysis to see if there were differences in
+comparing number of suicide rates and age groups. There were clear
+differences in suicide rates by age group, with a trend that seemed to
+be proportional.
+
+``` r
+suicides %>%
+  ggplot(aes(x = age, y = `suicides/100k pop`)) +
+  geom_boxplot()
+```
+
+![](proposal_files/figure-gfm/suicide-by-age-group-1.png)<!-- -->
+
+Some of the statistical methods that we could use in answering our
+questions could be hypothesis tests, linear regression, and
+bootstrapping techniques. We could use these tests to determine the
+strength and validity of a relationship. When we do hypothesis tests we
+are looking for p-values at or below 0.05. And when we do linear
+regression models we are looking for high r-squared values.
 
 ## Section 3. Data
 
