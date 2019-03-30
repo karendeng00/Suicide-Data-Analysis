@@ -33,10 +33,22 @@ https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016
 
 We plan to use a variety of variables to see how they impact number of suicides per 100,000 people of the population in different countries. Some of the variables we will explore are GDP per capita, gender, generation, and age. We will also see how trends in suicide rate vary by country. 
 
+Because our research question asks if location, year, sex, and economic situation contribute to suicide rates, we are asking about the relationship between variables and whether or not our predictors have a correlation with our outcome. The predictor variables in this data set are GDP per capita, gender, generation, country, and age, and our outcome variable are the no of suicides. We are comparing relationships between GDP per capita and number of suicides, gender and number of suicides, generation and number of suicides, country and number of suicides, and age and number of suicides. 
+
 Exploratory Data Analysis:
 I first tried to find average number of suicides by country. However, the first result showed many numbers very very close to 1. This seems to be because the data is very specific. Not only does every country and year have its own number of suicides but so does every every and age group. This means that there are a lot of entries of 0 suicides in specific age group that cause the average to get very close to 0. To do broader analysis by year, we're going to need to make new entries that have the total number of suicides in a given country in a year. 
 
+In order to look more into relationships betweeen specific variables, we may need to use the count() function to determine the number of suicides for a specific variable, instead of looking at 12 variables at once. I've done this in the code below if we're interested in exploring more about relationships in location and number of suicides.
+
+Count number of suicides in each country:
+
+```{r country-suicides}
+suicides %>%
+  count(suicides_no, country)
+```
+
 When I did some exploratory analysis comparing sex and number of suicides, I made this boxplot. Clearly, males have many more large outliers than females do and also show a higher average number of suicides. This will be an interesting trend to explore and find the cause of. 
+
 ```{r suicide-by-sex}
 suicides %>%
   ggplot(aes(x = sex, y = `suicides/100k pop`)) +

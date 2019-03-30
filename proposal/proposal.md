@@ -72,6 +72,16 @@ Some of the variables we will explore are GDP per capita, gender,
 generation, and age. We will also see how trends in suicide rate vary by
 country.
 
+Because our research question asks if location, year, sex, and economic
+situation contribute to suicide rates, we are asking about the
+relationship between variables and whether or not our predictors have a
+correlation with our outcome. The predictor variables in this data set
+are GDP per capita, gender, generation, country, and age, and our
+outcome variable are the no of suicides. We are comparing relationships
+between GDP per capita and number of suicides, gender and number of
+suicides, generation and number of suicides, country and number of
+suicides, and age and number of suicides.
+
 Exploratory Data Analysis: I first tried to find average number of
 suicides by country. However, the first result showed many numbers very
 very close to 1. This seems to be because the data is very specific. Not
@@ -81,6 +91,34 @@ entries of 0 suicides in specific age group that cause the average to
 get very close to 0. To do broader analysis by year, we’re going to need
 to make new entries that have the total number of suicides in a given
 country in a year.
+
+In order to look more into relationships betweeen specific variables, we
+may need to use the count() function to determine the number of suicides
+for a specific variable, instead of looking at 12 variables at once.
+I’ve done this in the code below if we’re interested in exploring more
+about relationships in location and number of suicides.
+
+Count number of suicides in each country:
+
+``` r
+suicides %>%
+  count(suicides_no, country)
+```
+
+    ## # A tibble: 11,466 x 3
+    ##    suicides_no country                 n
+    ##          <dbl> <chr>               <int>
+    ##  1           0 Albania                58
+    ##  2           0 Antigua and Barbuda   314
+    ##  3           0 Armenia                46
+    ##  4           0 Aruba                 116
+    ##  5           0 Australia               3
+    ##  6           0 Austria                 9
+    ##  7           0 Azerbaijan             27
+    ##  8           0 Bahamas               211
+    ##  9           0 Bahrain               146
+    ## 10           0 Barbados              220
+    ## # … with 11,456 more rows
 
 When I did some exploratory analysis comparing sex and number of
 suicides, I made this boxplot. Clearly, males have many more large
