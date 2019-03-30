@@ -33,37 +33,73 @@ https://www.kaggle.com/russellyates88/suicide-rates-overview-1985-to-2016
 
 We plan to use a variety of variables to see how they impact number of suicides per 100,000 people of the population in different countries. Some of the variables we will explore are GDP per capita, gender, generation, and age. We will also see how trends in suicide rate vary by country. 
 
-Because our research question asks if location, year, sex, and economic situation contribute to suicide rates, we are asking about the relationship between variables and whether or not our predictors have a correlation with our outcome. The predictor variables in this data set are GDP per capita, gender, generation, country, and age, and our outcome variable are the no of suicides. We are comparing relationships between GDP per capita and number of suicides, gender and number of suicides, generation and number of suicides, country and number of suicides, and age and number of suicides. 
+Because our research question asks if location, year, sex, and economic situation contribute to suicide rates, we are asking about the relationship between variables and whether or not our predictors have a correlation with our outcome. The predictor variables in this data set are GDP per capita, gender, generation, country, and age, and our outcome variable are the no of suicides/100k population. We are comparing relationships between GDP per capita and number of suicides/100k population , gender and number of suicides, generation and number of suicides, country and number of suicides, and age and number of suicides/100k population. 
 
 Exploratory Data Analysis:
+
 I first tried to find average number of suicides by country. However, the first result showed many numbers very very close to 1. This seems to be because the data is very specific. Not only does every country and year have its own number of suicides but so does every every and age group. This means that there are a lot of entries of 0 suicides in specific age group that cause the average to get very close to 0. To do broader analysis by year, we're going to need to make new entries that have the total number of suicides in a given country in a year. 
 
-In order to look more into relationships betweeen specific variables, we may need to use the count() function to determine the number of suicides for a specific variable, instead of looking at 12 variables at once. I've done this in the code below if we're interested in exploring more about relationships in location and number of suicides.
+In order to look more into relationships betweeen specific variables, we may need to use the count() function to determine the number of suicides/100k population for a specific variable, instead of looking at 12 variables at once. I've done this in the code below if we're interested in exploring more about relationships between location and number of suicides/100k population.
 
 Count number of suicides in each country:
 
 ```{r country-suicides}
 suicides %>%
-  count(suicides_no, country)
+  count(`suicides/100k pop`, country) %>%
+  arrange(desc(n))
 ```
+
+Antigua and Barbuda have the highest number of suicides/100k population from 1985 to 2016.
 
 When I did some exploratory analysis comparing sex and number of suicides, I made this boxplot. Clearly, males have many more large outliers than females do and also show a higher average number of suicides. This will be an interesting trend to explore and find the cause of. 
 
+Create box plot for gender and number of suicides:
+
 ```{r suicide-by-sex}
 suicides %>%
-  ggplot(aes(x = sex, y = `suicides/100k pop`)) +
-  geom_boxplot()
+  ggplot(aes(x = sex, y = `suicides/100k pop`)) + 
+  geom_boxplot() + labs(title = " Number of suicides / 100k population for gender", x = "Sex", y = "Suicides/100k population")
+```
+
+Calculate summary statistics for box plot:
+
+```{r suicide-by-sex-summary}
+suicides %>%
+  group_by(sex) %>%
+  summarise(min = min(`suicides/100k pop`), max = max(`suicides/100k pop`),
+            median = median(`suicides/100k pop`),
+            q1 = quantile(`suicides/100k pop`, probs = 0.25),
+            q3 = quantile(`suicides/100k pop`, probs = 0.75), 
+            iqr = q3 - q1)
 ```
 
 I also did some data analysis to see if there were differences in comparing number of suicide rates and age groups. There were clear differences in suicide rates by age group, with a trend that seemed to be proportional. 
+
+A boxplot was chosen because it depicts the relationship between a numerical and categorical variable. The graph shows the number of suicides for each gender. The middle line in the box represents the median number of suicides/100k population. Males have the highest median number of suicides/100k population (13.55 suicides/100k population), while females have the lowest median number of suicides/100k population (3.16 suicides/100k population). Females have an outlier as far as 133.42 suicides/100k population, and males have an outlier as far as 223.97 suicides/100k popuatlion as shown by the dots in the graph. The 25th percentile is represented by the lower line of the box, while the 75th percentile is represented by the upper line of the box. The IQR is equal to the difference between the 75th and 25th percentile and is represented by what is inside the box. Females have the lowest IQR (7 suicides/100k population) and males have the largest IQR (24.94 suicides/100k population). IQR tells us that females have the smallest spread, while males have the largest spread.
+
+Create box plots for age and number of suicides:
+
 ```{r suicide-by-age-group}
 suicides %>%
   ggplot(aes(x = age, y = `suicides/100k pop`)) +
   geom_boxplot()
 ```
 
-Some of the statistical methods that we could use in answering our questions could be hypothesis tests, linear regression, and bootstrapping techniques. We could use these tests to determine the strength and validity of a relationship. When we do hypothesis tests we are looking for p-values at or below 0.05. And when we do linear regression models we are looking for high r-squared values. 
+Calculate summary statistics for box plot:
 
+```{r suicide-by-age-summary}
+suicides %>%
+  group_by(age) %>%
+  summarise(min = min(`suicides/100k pop`), max = max(`suicides/100k pop`),
+            median = median(`suicides/100k pop`),
+            q1 = quantile(`suicides/100k pop`, probs = 0.25),
+            q3 = quantile(`suicides/100k pop`, probs = 0.75), 
+            iqr = q3 - q1)
+```
+
+A boxplot was chosen because it depicts the relationship between a numerical and categorical variable. The graph shows the number of suicides for each age The middle line in the box represents the median number of suicides/100k population. People 75+ years old have the highest median number of suicides/100k population (12.47 suicides/100k population), while people 5-14 years old have the lowest median number of suicides/100k population (0.320 suicides/100k population). People 15-24 years old have an outlier as far as 85.59 suicides/100k population, people 25-34 years with 94.18 suicides/100k population, people 35-54 years old with 151.33 suicides/100k population, people 5-14 years old with 18.92 suicides/100k population, people 55-74 years old with 123.83 suicides/100k population, and people 75+ years old with 224.97 suicides/100k population. The 25th percentile is represented by the lower line of the box, while the 75th percentile is represented by the upper line of the box. The IQR is equal to the difference between the 75th and 25th percentile and is represented by what is inside the box. People 5-14 years old have the lowest IQR (0.81 suicides/100k population) and people 75+ years old have the largest IQR (30.78 suicides/100k population). IQR tells us that people 5-14 years old have the smallest spread, while people 75+ years old have the largest spread.
+
+Some of the statistical methods that we could use in answering our questions could be hypothesis tests, linear regression, and bootstrapping techniques. We could use these tests to determine the strength and validity of a relationship. When we do hypothesis tests we are looking for p-values at or below 0.05 to determine whether there is no difference between number of suicides/100k population for variables of one type versus number of suicides/100k population for variables of another type (if there is a difference between number of suicides/100k population for females than for males). And when we do linear regression models we are looking for high r-squared values. Higher r-squared values indicates that there is higher linear correlation between variables. 
 
 ## Section 3. Data
 
