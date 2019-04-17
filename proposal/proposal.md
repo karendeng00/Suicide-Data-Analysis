@@ -85,7 +85,7 @@ of suicides/100k population.
 
 Exploratory Data Analysis:
 
-I first tried to find average number of suicides by country. However,
+We first tried to find average number of suicides by country. However,
 the first result showed many numbers very very close to 1. This seems to
 be because the data is very specific. Not only does every country and
 year have its own number of suicides but so does every every and age
@@ -97,7 +97,7 @@ have the total number of suicides in a given country in a year.
 In order to look more into relationships betweeen specific variables, we
 may need to use the count() function to determine the number of
 suicides/100k population for a specific variable, instead of looking at
-12 variables at once. I’ve done this in the code below if we’re
+12 variables at once. We’ve done this in the code below if we’re
 interested in exploring more about relationships between location and
 number of suicides/100k population.
 
@@ -127,8 +127,8 @@ suicides %>%
 Antigua and Barbuda have the highest number of suicides/100k population
 from 1985 to 2016.
 
-When I did some exploratory analysis comparing sex and number of
-suicides, I made this boxplot. Clearly, males have many more large
+When we did some exploratory analysis comparing sex and number of
+suicides, we made this boxplot. Clearly, males have many more large
 outliers than females do and also show a higher average number of
 suicides. This will be an interesting trend to explore and find the
 cause of.
@@ -161,7 +161,7 @@ suicides %>%
     ## 1 female     0  133.   3.16  0.41  7.41   7  
     ## 2 male       0  225.  13.6   2.42 27.4   24.9
 
-I also did some data analysis to see if there were differences in
+We also did some data analysis to see if there were differences in
 comparing number of suicide rates and age groups. There were clear
 differences in suicide rates by age group, with a trend that seemed to
 be proportional.
