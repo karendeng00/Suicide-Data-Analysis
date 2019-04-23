@@ -1,7 +1,7 @@
 ---
-title: "PROJECT TITLE"
-author: "NAME HERE"
-date: "TODAY'S DATE"
+title: "Suicide Data Analysis Project"
+author: "Stats Stars"
+date: "04/29/19"
 output: github_document
 ---
 
@@ -12,3 +12,24 @@ knitr::opts_chunk$set(echo = FALSE)
 Your project goes here! Before you submit, make sure your chunks are turned off with `echo = FALSE`. 
 
 You can add sections as you see fit. Make sure you have a section called Introduction at the beginning and a section called Conclusion at the end. The rest is up to you!
+
+### Introduction
+
+### Load Data and Libraries
+
+```{r load-data, message=FALSE}
+library(tidyverse)
+suicides <- read_csv("/cloud/project/data/master.csv")
+```
+
+### Suicides and Location
+
+### Suicides and Economics and Generation (Age)
+
+### Suicides and Year
+
+### Suicides and Sex
+
+### Linear Modeling 
+
+### Conclusion
