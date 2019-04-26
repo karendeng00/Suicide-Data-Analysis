@@ -2,7 +2,8 @@
 title: "Suicide Data Analysis Project"
 author: "Stats Stars"
 date: "04/29/19"
-output: github_document
+output: html_document
+runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
@@ -29,6 +30,7 @@ suicides <- read_csv("/cloud/project/data/master.csv")
 topcountries <- suicides %>%
   group_by(country) %>%
   summarise(n = mean(`suicides/100k pop`)) %>%
+  filter(n!=0) %>%
   arrange(desc(n))
 
 ggplot(data = topcountries, mapping = aes(x = reorder(country,n), y = n)) +
@@ -41,8 +43,7 @@ ggplot(data = topcountries, mapping = aes(x = reorder(country,n), y = n)) +
 ```
 
 ```{r highest-rate-by-country}
-topcountries %>%
-  slice(1:10)
+topcountries
 ```
 
 
@@ -194,5 +195,101 @@ suicides_us <- suicides %>%
 
 
 ### Linear Modeling 
+
+### Shiny App
+
+```{r shinyapp}
+ui <- fluidPage(
+    
+    # Sidebar layout with a input and output definitions
+    sidebarLayout(
+        
+        # Inputs: Select variables to plot
+        sidebarPanel(
+            
+           # Select country
+            selectInput(inputId = "country_data",
+                      label = "Country",
+                      choices = suicides$country,
+                      selected = "United States"),
+           
+            # Select variable for x-axis
+            selectInput(inputId = "x", 
+                        label = "X-axis:",
+                        choices = c("year", "sex", "age", "population", "`gdp_for_year ($)`",
+                                    "`gdp_per_capita ($)`", "`HDI for year`"),
+                        selected = "year"),
+            
+            # Select variable for y-axis
+            selectInput(inputId = "y", 
+                        label = "Y-axis:",
+                        choices = c("suicides_no", "`suicides/100k pop`"), 
+                        selected = "suicides_no"),
+            
+            # Show data table
+            checkboxInput(inputId = "show_data",
+                          label = "Show Data: ",
+                          value = FALSE
+            )
+        ),
+        
+        # Output
+        mainPanel(
+            
+            # Show plot
+            plotOutput(outputId = "plot"),
+            
+            # Show data table
+            DT::dataTableOutput(outputId = "suicidetable")
+            
+        )
+    )
+)
+
+        # Output
+        mainPanel(
+            
+            # Show plot
+            plotOutput(outputId = "plot"),
+            
+            # Show data table
+            DT::dataTableOutput(outputId = "suicidetable")
+            
+        )
+
+# Define server function --------------------------------------------
+server <- function(input, output) {
+  
+    # Create scatterplot object the plotOutput function is expecting
+    output$plot <- renderPlot({
+      
+      if(input$x %in% c("age", "sex", "generation")){
+         ggplot(data = subset(suicides, country %in% input$country_data), 
+                aes_string(x = input$x, y = input$y)) +
+            geom_boxplot()
+      }
+      
+      else{
+         ggplot(data = subset(suicides, country %in% input$country_data), 
+                aes_string(x = input$x, y = input$y)) +
+            geom_smooth()
+      }
+    })
+    
+    # Print data table if checked
+    output$suicidetable <- DT::renderDataTable(
+        if(input$show_data){
+            DT::datatable(data = subset(suicides, country %in% input$country_data), 
+                          options = list(pageLength = 15), 
+                          rownames = FALSE)
+        }
+    )
+}
+
+# Create the Shiny app object ---------------------------------------
+shinyApp(ui, server)
+```
+
+
 
 ### Conclusion
