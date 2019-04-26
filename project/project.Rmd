@@ -56,7 +56,15 @@ R-squared value is: 8.740802e-06
 
 ### Suicides and Generation/Age
 
-
+```{r vis-generation-suicides-current}
+suicides_current <- suicides %>%
+  filter(year == "2016")
+ggplot(data = suicides_current, mapping = aes(x = generation, y = `suicides/100k pop`)) +
+  geom_boxplot() +
+  labs(title = "Suicides per 100k of the population",
+       x = "Generation",
+       y = "Suicides per 100k of the population")
+```
 
 ### Suicides and Year
 

@@ -30,9 +30,12 @@ end. The rest is up to you\!
 
 Equation for the linear model is: (Suicides per 100k of the
 population-hat) = (1.533301e+02) + (1.830459e-05\*GDP per capita($))
-R-squared value is: 8.740802e-06
+R-squared value is:
+8.740802e-06
 
 ### Suicides and Generation/Age
+
+![](project_files/figure-gfm/vis-generation-suicides-current-1.png)<!-- -->
 
 ### Suicides and Year
 
