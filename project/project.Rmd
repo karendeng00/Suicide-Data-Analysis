@@ -24,11 +24,26 @@ suicides <- read_csv("/cloud/project/data/master.csv")
 
 ### Suicides and Location
 
-### Suicides and Economics and Generation (Age)
+### Suicides and Economic Situation
 
-```{r s}
-suicides
+```{r create-dataframe-grouping-data-countryyear}
+#aggregated all the suicides/100k pop data per country-year
+suicides_grouped <- aggregate(`suicides/100k pop` ~ `country-year`, data = suicides, FUN=sum)
+
+#merged data set created with old one to have access to gdp data
+suicide_economics <- merge(suicides, suicides_grouped, by.x = "country-year", by.y = "country-year") %>%
+  select(`country-year`, `suicides/100k pop.y`, `gdp_per_capita ($)`)
 ```
+
+```{r vis-suicide-gdp-per-capita}
+ggplot(data = suicide_economics, mapping = aes(x = `gdp_per_capita ($)`, y = `suicides/100k pop.y`)) + 
+  geom_point(size = 0.1, color = "blue") +
+  labs(title = "Suicides per 100k of the population vs. GDP per capita",
+       x = "GDP per capita ($)",
+       y = "Suicides per 100k of the population")
+```
+
+### Suicides and Generation/Age
 
 ### Suicides and Year
 
