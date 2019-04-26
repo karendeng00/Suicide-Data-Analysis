@@ -46,6 +46,13 @@ Create visualization to represent the number of suicides for each year:
 
 ### Suicides and Sex
 
+Group number of suicides together by sex to find number of suicides for
+each sex:
+
+Create visualization to represent the number of suicides for each year:
+
+![](project_files/figure-gfm/sex-suicides-visualization-1.png)<!-- -->
+
 ### Linear Modeling
 
 ### Conclusion
