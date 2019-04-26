@@ -160,6 +160,16 @@ year_sex
 ggplot(data = year_sex, mapping=aes(x = year, fill = sex)) + geom_bar(position = "fill")  +  labs(title = "Proportions of Gender for Births in 2010-2017", x = "Generation", y = "Number of Births")
 ```
 
+### Suicides in the United States
+
+```{r us-data}
+suicides_us <- suicides %>%
+  filter(country == "United States")
+```
+
+```{r us-suicides-over-time}
+
+```
 
 
 ### Linear Modeling 

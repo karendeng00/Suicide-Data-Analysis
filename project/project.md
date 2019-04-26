@@ -96,6 +96,8 @@ Compare number of suicides for each sex per year:
 
 ![](project_files/figure-gfm/year-sex-visualization-1.png)<!-- -->
 
+### Suicides in the United States
+
 ### Linear Modeling
 
 ### Conclusion
