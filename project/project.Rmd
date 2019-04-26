@@ -19,6 +19,7 @@ You can add sections as you see fit. Make sure you have a section called Introdu
 
 ```{r load-data, message=FALSE}
 library(tidyverse)
+library(broom)
 suicides <- read_csv("/cloud/project/data/master.csv")
 ```
 
@@ -38,12 +39,24 @@ suicide_economics <- merge(suicides, suicides_grouped, by.x = "country-year", by
 ```{r vis-suicide-gdp-per-capita}
 ggplot(data = suicide_economics, mapping = aes(x = `gdp_per_capita ($)`, y = `suicides/100k pop.y`)) + 
   geom_point(size = 0.1, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE,
+              col = "orange") +
   labs(title = "Suicides per 100k of the population vs. GDP per capita",
        x = "GDP per capita ($)",
        y = "Suicides per 100k of the population")
 ```
 
+```{r linear-model}
+model_gdp_suicides <- lm(`suicides/100k pop.y` ~ `gdp_per_capita ($)`, data = suicide_economics)
+tidy(model_gdp_suicides)
+glance(model_gdp_suicides)$r.squared
+```
+Equation for the linear model is: (Suicides per 100k of the population-hat) = (1.533301e+02) + (1.830459e-05*GDP per capita($)) 
+R-squared value is: 8.740802e-06
+
 ### Suicides and Generation/Age
+
+
 
 ### Suicides and Year
 

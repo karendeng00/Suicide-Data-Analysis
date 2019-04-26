@@ -20,6 +20,18 @@ end. The rest is up to you\!
 
 ![](project_files/figure-gfm/vis-suicide-gdp-per-capita-1.png)<!-- -->
 
+    ## # A tibble: 2 x 5
+    ##   term                    estimate std.error statistic p.value
+    ##   <chr>                      <dbl>     <dbl>     <dbl>   <dbl>
+    ## 1 (Intercept)          153.        0.940       163.      0    
+    ## 2 `gdp_per_capita ($)`   0.0000183 0.0000371     0.493   0.622
+
+    ## [1] 8.740802e-06
+
+Equation for the linear model is: (Suicides per 100k of the
+population-hat) = (1.533301e+02) + (1.830459e-05\*GDP per capita($))
+R-squared value is: 8.740802e-06
+
 ### Suicides and Generation/Age
 
 ### Suicides and Year
