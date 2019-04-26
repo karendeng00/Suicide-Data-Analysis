@@ -16,6 +16,23 @@ end. The rest is up to you\!
 
 ### Suicides and Location
 
+![](project_files/figure-gfm/country-plot-1.png)<!-- -->
+
+    ## # A tibble: 101 x 2
+    ##    country                n
+    ##    <chr>              <dbl>
+    ##  1 Lithuania           40.4
+    ##  2 Sri Lanka           35.3
+    ##  3 Russian Federation  34.9
+    ##  4 Hungary             32.8
+    ##  5 Belarus             31.1
+    ##  6 Kazakhstan          30.5
+    ##  7 Latvia              29.3
+    ##  8 Slovenia            27.8
+    ##  9 Estonia             27.3
+    ## 10 Ukraine             26.6
+    ## # … with 91 more rows
+
 ### Suicides and Economic Situation
 
 ![](project_files/figure-gfm/vis-suicide-gdp-per-capita-1.png)<!-- -->

@@ -25,6 +25,28 @@ suicides <- read_csv("/cloud/project/data/master.csv")
 
 ### Suicides and Location
 
+```{r country-plot, fig.height=10, fig.width=8}
+topcountries <- suicides %>%
+  group_by(country) %>%
+  summarise(n = mean(`suicides/100k pop`)) %>%
+  arrange(desc(n))
+
+ggplot(data = topcountries, mapping = aes(x = country, y = n)) +
+  geom_bar(aes(y = n), stat = "Identity", fill="blue") +
+  coord_flip() +
+  labs(title = "The unadjusted gender gap according to the OECD 2008",
+       x = "Country",
+       y = "Percent")
+```
+
+```{r highest-rate-by-country}
+topcountries <- suicides %>%
+  group_by(country) %>%
+  summarise(n = mean(`suicides/100k pop`)) %>%
+  arrange(desc(n))
+topcountries
+```
+
 ### Suicides and Economic Situation
 
 ```{r create-dataframe-grouping-data-countryyear}
