@@ -31,20 +31,18 @@ topcountries <- suicides %>%
   summarise(n = mean(`suicides/100k pop`)) %>%
   arrange(desc(n))
 
-ggplot(data = topcountries, mapping = aes(x = country, y = n)) +
+ggplot(data = topcountries, mapping = aes(x = reorder(country,n), y = n)) +
   geom_bar(aes(y = n), stat = "Identity", fill="blue") +
   coord_flip() +
-  labs(title = "The unadjusted gender gap according to the OECD 2008",
+  labs(title = "Suicides per 100k people",
+       subtitle = "by country",
        x = "Country",
-       y = "Percent")
+       y = "Count")
 ```
 
 ```{r highest-rate-by-country}
-topcountries <- suicides %>%
-  group_by(country) %>%
-  summarise(n = mean(`suicides/100k pop`)) %>%
-  arrange(desc(n))
-topcountries
+topcountries %>%
+  slice(1:10)
 ```
 
 ### Suicides and Economic Situation

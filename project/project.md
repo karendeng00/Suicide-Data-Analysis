@@ -18,7 +18,7 @@ end. The rest is up to you\!
 
 ![](project_files/figure-gfm/country-plot-1.png)<!-- -->
 
-    ## # A tibble: 101 x 2
+    ## # A tibble: 10 x 2
     ##    country                n
     ##    <chr>              <dbl>
     ##  1 Lithuania           40.4
@@ -31,7 +31,6 @@ end. The rest is up to you\!
     ##  8 Slovenia            27.8
     ##  9 Estonia             27.3
     ## 10 Ukraine             26.6
-    ## # … with 91 more rows
 
 ### Suicides and Economic Situation
 
