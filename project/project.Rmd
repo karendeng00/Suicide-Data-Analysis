@@ -25,7 +25,6 @@ suicides <- read_csv("/cloud/project/data/master.csv")
 
 ### Suicides and Location
 
-<<<<<<< HEAD
 ```{r country-plot, fig.height=10, fig.width=8}
 topcountries <- suicides %>%
   group_by(country) %>%
@@ -46,10 +45,8 @@ topcountries %>%
   slice(1:10)
 ```
 
-### Suicides and Economic Situation
-=======
+
 ### Suicides and Economic Situation over all Time
->>>>>>> c7d5c5c6571e619576824aaf76324a8f2a56d893
 
 ```{r create-dataframe-grouping-data-countryyear}
 #aggregated all the suicides/100k pop data per country-year

@@ -16,7 +16,6 @@ end. The rest is up to you\!
 
 ### Suicides and Location
 
-<<<<<<< HEAD
 ![](project_files/figure-gfm/country-plot-1.png)<!-- -->
 
     ## # A tibble: 10 x 2
@@ -33,10 +32,7 @@ end. The rest is up to you\!
     ##  9 Estonia             27.3
     ## 10 Ukraine             26.6
 
-### Suicides and Economic Situation
-=======
 ### Suicides and Economic Situation over all Time
->>>>>>> c7d5c5c6571e619576824aaf76324a8f2a56d893
 
 ![](project_files/figure-gfm/vis-suicide-gdp-per-capita-1.png)<!-- -->
 
