@@ -229,22 +229,8 @@ ui <- fluidPage(
             # Show data table
             checkboxInput(inputId = "show_data",
                           label = "Show Data: ",
-                          value = FALSE
-            )
-        ),
-        
-        # Output
-        mainPanel(
-            
-            # Show plot
-            plotOutput(outputId = "plot"),
-            
-            # Show data table
-            DT::dataTableOutput(outputId = "suicidetable")
-            
-        )
-    )
-)
+                          value = FALSE)
+            ),
 
         # Output
         mainPanel(
@@ -254,8 +240,10 @@ ui <- fluidPage(
             
             # Show data table
             DT::dataTableOutput(outputId = "suicidetable")
-            
         )
+        
+    )
+)
 
 # Define server function --------------------------------------------
 server <- function(input, output) {
