@@ -53,6 +53,26 @@ Create visualization to represent the number of suicides for each year:
 
 ![](project_files/figure-gfm/sex-suicides-visualization-1.png)<!-- -->
 
+Compare number of suicides for each sex per year:
+
+    ## # A tibble: 64 x 3
+    ## # Groups:   year [?]
+    ##     year sex        n
+    ##    <dbl> <chr>  <int>
+    ##  1  1985 female   288
+    ##  2  1985 male     288
+    ##  3  1986 female   288
+    ##  4  1986 male     288
+    ##  5  1987 female   324
+    ##  6  1987 male     324
+    ##  7  1988 female   294
+    ##  8  1988 male     294
+    ##  9  1989 female   312
+    ## 10  1989 male     312
+    ## # … with 54 more rows
+
+![](project_files/figure-gfm/year-sex-visualization-1.png)<!-- -->
+
 ### Linear Modeling
 
 ### Conclusion

@@ -67,6 +67,8 @@ server <- function(input, output) {
             geom_point(alpha = input$alpha)
     })
     
+    
+    
     # Print data table if checked
     output$suicidetable <- DT::renderDataTable(
         if(input$show_data){

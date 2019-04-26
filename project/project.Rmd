@@ -64,6 +64,23 @@ Create visualization to represent the number of suicides for each year:
 ggplot(data = suicides_sex, mapping=aes(x = sex, y =  n)) + geom_col()  +  labs(title = "Number of Suicides for Each Sex", x = "Sex", y = "Number of Suicides")
 ```
 
+Compare number of suicides for each sex per year:
+
+```{r year-sex-suicides}
+year_sex <- suicides %>%
+  group_by(year, sex) %>% 
+  count(suicides_no) %>%
+  summarize(n = sum(n))
+
+year_sex
+```
+
+```{r year-sex-visualization}
+ggplot(data = year_sex, mapping=aes(x = year, fill = sex)) + geom_bar(position = "fill")  +  labs(title = "Proportions of Gender for Births in 2010-2017", x = "Generation", y = "Number of Births")
+```
+
+
+
 ### Linear Modeling 
 
 ### Conclusion
