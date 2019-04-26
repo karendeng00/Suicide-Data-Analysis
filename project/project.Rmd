@@ -26,9 +26,32 @@ suicides <- read_csv("/cloud/project/data/master.csv")
 
 ### Suicides and Economics and Generation (Age)
 
+```{r s}
+suicides
+```
+
 ### Suicides and Year
 
+Group number of suicides together by year to find number of suicides for each year:
+
+```{r year-suicides}
+year_suicides<- suicides %>%
+  group_by(year) %>% 
+  count(suicides_no) %>%
+  summarize(n = sum(n))
+```
+
+Create visualization to represent the number of suicides for each year:
+
+```{r year-suicides-visualization}
+ggplot(data = year_suicides, mapping=aes(x = year, y =  n)) + geom_col()  +  labs(title = "Number of Suicides for Each Year", x = "Year", y = "Number of Suicides")
+```
+
 ### Suicides and Sex
+
+```{r sex-suicide}
+
+```
 
 ### Linear Modeling 
 
