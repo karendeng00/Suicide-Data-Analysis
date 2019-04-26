@@ -25,7 +25,7 @@ suicides <- read_csv("/cloud/project/data/master.csv")
 
 ### Suicides and Location
 
-### Suicides and Economic Situation
+### Suicides and Economic Situation over all Time
 
 ```{r create-dataframe-grouping-data-countryyear}
 #aggregated all the suicides/100k pop data per country-year
@@ -46,7 +46,7 @@ ggplot(data = suicide_economics, mapping = aes(x = `gdp_per_capita ($)`, y = `su
        y = "Suicides per 100k of the population")
 ```
 
-```{r linear-model}
+```{r linear-model-suicide-economics}
 model_gdp_suicides <- lm(`suicides/100k pop.y` ~ `gdp_per_capita ($)`, data = suicide_economics)
 tidy(model_gdp_suicides)
 glance(model_gdp_suicides)$r.squared
@@ -54,15 +54,59 @@ glance(model_gdp_suicides)$r.squared
 Equation for the linear model is: (Suicides per 100k of the population-hat) = (1.533301e+02) + (1.830459e-05*GDP per capita($)) 
 R-squared value is: 8.740802e-06
 
-### Suicides and Generation/Age
+### Suicides and Economic Situation in 2015
+
+```{r create-dataframe-grouping-data-countryyear-2015}
+suicides_current <- suicides %>%
+  filter(year == "2015")
+
+#aggregated all the suicides/100k pop data per country-year
+suicides_grouped_current <- aggregate(`suicides/100k pop` ~ `country-year`, data = suicides_current, FUN=sum)
+
+#merged data set created with old one to have access to gdp data
+suicide_economics_current <- merge(suicides, suicides_grouped_current, by.x = "country-year", by.y = "country-year") %>%
+  select(`country-year`, `suicides/100k pop.y`, `gdp_per_capita ($)`)
+```
+
+```{r vis-suicide-gdp-per-capita-2015}
+ggplot(data = suicide_economics_current, mapping = aes(x = `gdp_per_capita ($)`, y = `suicides/100k pop.y`)) + 
+  geom_point(size = 0.1, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE,
+              col = "orange") +
+  labs(title = "Suicides per 100k of the population vs. GDP per capita",
+       subtitle = "in 2015",
+       x = "GDP per capita ($)",
+       y = "Suicides per 100k of the population")
+```
+
+```{r linear-model-gdp-2015}
+model_gdp_suicides_current <- lm(`suicides/100k pop.y` ~ `gdp_per_capita ($)`, data = suicide_economics_current)
+tidy(model_gdp_suicides_current)
+glance(model_gdp_suicides_current)$r.squared
+```
+Equation for the linear model is: (Suicides per 100k of the population-hat) = (1.274415e+02) + (2.168189e-04*GDP per capita($)) 
+R-squared value is: 0.003774998
+
+### Suicides and Generation
+
+```{r vis-generation-suicides}
+ggplot(data = suicides, mapping = aes(x = generation, y = `suicides/100k pop`)) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(title = "Suicides per 100k of the population vs. Generation",
+       x = "Generation",
+       y = "Suicides per 100k of the population")
+```
+
+### Suicides and Generation in 2015
 
 ```{r vis-generation-suicides-current}
 suicides_current <- suicides %>%
-  filter(year == "2016")
+  filter(year == "2015")
 ggplot(data = suicides_current, mapping = aes(x = generation, y = `suicides/100k pop`)) +
   geom_boxplot() +
-  labs(title = "Suicides per 100k of the population",
-       subtitle = "in 2016",
+  labs(title = "Suicides per 100k of the population vs. Generation",
+       subtitle = "in 2015",
        x = "Generation",
        y = "Suicides per 100k of the population")
 ```
