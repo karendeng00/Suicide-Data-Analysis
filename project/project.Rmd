@@ -211,7 +211,7 @@ ui <- fluidPage(
             selectInput(inputId = "country_data",
                       label = "Country",
                       choices = suicides$country,
-                      selected = "United States"),
+                      selected = "`Albania`"),
            
             # Select variable for x-axis
             selectInput(inputId = "x", 
@@ -224,7 +224,7 @@ ui <- fluidPage(
             selectInput(inputId = "y", 
                         label = "Y-axis:",
                         choices = c("suicides_no", "`suicides/100k pop`"), 
-                        selected = "suicides_no"),
+                        selected = "`suicides/100k pop`"),
             
             # Show data table
             checkboxInput(inputId = "show_data",
