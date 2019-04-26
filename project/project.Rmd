@@ -62,6 +62,7 @@ suicides_current <- suicides %>%
 ggplot(data = suicides_current, mapping = aes(x = generation, y = `suicides/100k pop`)) +
   geom_boxplot() +
   labs(title = "Suicides per 100k of the population",
+       subtitle = "in 2016",
        x = "Generation",
        y = "Suicides per 100k of the population")
 ```
