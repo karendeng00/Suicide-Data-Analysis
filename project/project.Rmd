@@ -40,7 +40,6 @@ suicides <- suicides %>%
          gdp_per_capita = `gdp_per_capita ($)`,
          HDI_for_year = `HDI for year`,
          country_year = `country-year`)
-suicides
 ```
 
 ### Suicides and Location
@@ -201,15 +200,6 @@ year_sex
 ```
 
 Create visualization to represent proportions of gender for number of suicides/100K population by year:
-
-```{r year-sex-visualization}
-ggplot(data = year_sex, mapping=aes(x = Year, y =n, fill = Sex)) + 
-  geom_bar(stat = "identity", position = "dodge")  +  
-  labs(title = "Proportions of Gender for Number of Suicides/100K Population By Year", 
-       x = "Year", y = "Number of Suicides/100K Population")
-```
-
-Becaus there are interesting trends over time beginning to make themselves evident in the visualization, we made a line graph. 
 
 ```{r line}
 ggplot(year_sex, aes(x = Year, y = n, color = Sex)) +
