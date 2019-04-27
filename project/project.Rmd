@@ -221,7 +221,8 @@ Create visualization to represent the number of suicides/100k population over ti
 
 ```{r us-suicides-over-time}
 ggplot(data = suicides_us, mapping=aes(x = Year, y =  n)) + 
-  geom_col()  +  
+  geom_point(color = "orange")  +  
+  geom_line(color = "blue") +
   labs(title = "Number of Suicides/100K Population for Each Year in the United States", 
        x = "Year", y = "Number of Suicides/100K Population")
 ```
