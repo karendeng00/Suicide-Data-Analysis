@@ -43,7 +43,7 @@ suicides <- suicides %>%
 suicides <- suicides %>%
   mutate(Generation = fct_relevel(Generation, "G.I. Generation", "Silent", "Boomers", "Generation X", "Millenials", "Generation Z"))
 suicides <- suicides %>%
-  mutate(Age = fct_relevel(Age, "5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"))
+  mutate(Age = fct_relevel(Age, "75+ years", "55-74 years", "35-54 years", "25-34 years", "15-24 years", "5-14 years"))
 ```
 
 
@@ -116,11 +116,11 @@ Equation for the linear model is: (Suicides per 100k of the population-hat) = (1
 
 R-squared value is: 1.534907e-05
 
-The intercept of this model is 153. This means that for a country with a GDP per capita ($) the number of suicides per 100k of the population would be expected to be, on average, 153.
+The intercept of this model is 153. This means that for a country with a $0 GDP per capita the number of suicides per 100k of the population would be expected to be, on average, 153.
 
 The slope of this model is 0.0000243. This means that for every $1 increase in GDP per capita, the number of suicides per 100k of the population is expected to increase, on average, by 0.0000243.
 
-The r-squared is 1.534907e-05. This means that the GDP per capita in US$ explains 0.00153% of variability in the number of suicides per 100k of the population.
+The r-squared value is 1.534907e-05. This means that the GDP per capita in US$ explains 0.00153% of variability in the number of suicides per 100k of the population.
 
 ### Suicides and Economic Situation in 2015
 
@@ -157,7 +157,16 @@ Equation for the linear model is: (Suicides per 100k of the population-hat) = (1
 
 The R-squared value is: 0.003774998
 
+The intercept of this model is 127. This means that for a country in 2015 with a $0 GDP per capita the number of suicides per 100k of the population would be expected to be, on average, 127.
+
+The slope of this model is 2.168189e-04. This means that for every $1 increase in a country's GDP per capita in 2015, the number of suicides per 100k of the population is expected to increase, on average, by 2.168189e-04.
+
+The r-squared value is 0.003774998. This means that the GDP per capita ($) explains 0.377% of variability in the number of suicides per 100k of the population in 2015.
+
 ### Suicides and Generation
+
+We wanted to also explore the link between generation and suicide rates. The boxplot shown below clearly shows that each older generation has higher suicide rates than the one after it, meaning that suicide rates are largely decreasing over time. This trend is mirrored in the trends of suicide rate over the years. 
+There does seem to be a cluster of outliers in the Silent generation that is even higher than most of the outliers in G.I. Generation. When we did some further digging into the possible causes of this, we found that those abnormally high suicide rates among the Silent generation were almost all due to Korea's high suicide rates in 75+ year old men between the years of 2003 and 2015. When we did further research we found that the cause of those abnormally high suicide rates is because the elderly have no source of income because the country's pension system only began in 1988. As the country advances many young people leave their parents behind. And even if the young continue to financially support their parents, the older generation does not want to be a financial burden. This is causing their abnormally high suicide rates.
 
 ```{r vis-generation-suicides}
 ggplot(data = suicides, mapping = aes(x = Generation, y = suicides_per_100k_pop)) +
@@ -168,19 +177,31 @@ ggplot(data = suicides, mapping = aes(x = Generation, y = suicides_per_100k_pop)
        y = "Suicides per 100k of the population")
 ```
 
-### Suicides and Generation in 2015
+### Suicides and Age Group
 
-```{r vis-generation-suicides-current}
-suicides_current <- suicides %>%
-  filter(Year == "2015")
-ggplot(data = suicides_current, mapping = aes(x = Generation, y = suicides_per_100k_pop)) +
+Next, we decided to look at what age people are most likely to commit suicide. The boxplot below shows a clear positive trend in increasing age and proportion of suicides. From the summary statistics shown below the graph, we can infer that a person 75+ years of age is almost two times more likely to commit suicide than someone between 25 and 34 years old. 
+```{r vis-age-suicides}
+ggplot(data = suicides, mapping = aes(x = Age, y = suicides_per_100k_pop)) +
   coord_flip() +
   geom_boxplot() +
-  labs(title = "Suicides per 100k of the population vs. Generation",
-       subtitle = "in 2015",
-       x = "Generation",
+  labs(title = "Suicides per 100k of the population vs. Age",
+       x = "Age",
        y = "Suicides per 100k of the population")
 ```
+
+```{r age-suicides-summarystats}
+suicides %>%
+  group_by(Age) %>%
+  summarise(mean = mean(suicides_per_100k_pop),
+            median = median(suicides_per_100k_pop),
+            min = min(suicides_per_100k_pop),
+            max = max(suicides_per_100k_pop),
+            sd = sd(suicides_per_100k_pop),
+            q1 = quantile(suicides_per_100k_pop, probs = 0.25),
+            q3 = quantile(suicides_per_100k_pop, probs = 0.75),
+            iqr = (q3-q1))
+```
+
 
 ### Suicides and Year
 
@@ -239,43 +260,20 @@ ggplot(year_sex, aes(x = Year, y = n, color = Sex)) +
 ```
 
 
-### Suicides in the United States
-
-Select data for number of suicides in the United States only:
-
-```{r us-data}
-suicides_us <- suicides %>%
-  filter(country == "United States") %>%
-  group_by(Year) %>%
-  summarize(n = sum(suicides_per_100k_pop))
-
-suicides_us
-```
-
-Create visualization to represent the number of suicides/100k population over time for the US:
-
-```{r us-suicides-over-time}
-ggplot(data = suicides_us, mapping=aes(x = Year, y =  n)) + 
-  geom_point(color = "orange")  +  
-  geom_line(color = "blue") +
-  labs(title = "Number of Suicides/100K Population for Each Year in the United States", 
-       x = "Year", y = "Number of Suicides/100K Population")
-```
-
 ### Linear Modeling 
 
 To figure out which variables influence suicides the most, we will be doing a linear regression. 
 
-# ```{r all}
-# full_model <- lm(suicides_per_100k_pop ~ Age + Year + Country + Sex +
-#                    Generation Population + gdp_for_year + gdp_per_capita +
-#                    HDI_for_year + country_year, data = suicides)
-# ```
-# 
-# 
-# ```{r select}
-# selected_model <- step(full_model, direction = "backward")
-# ```
+```{r full-model}
+full_model <- lm(suicides_per_100k_pop ~ Age + Year + Country + Sex +
+                   Generation + Population + gdp_for_year +
+                   gdp_per_capita + HDI_for_year + country_year, data = suicides)
+```
+
+ 
+```{r select-model}
+#selected_model <- step(full_model, direction = "backward")
+```
 
 
 ### Shiny App
@@ -361,3 +359,6 @@ shinyApp(ui, server)
 ```
 
 ### Conclusion
+
+### Citations
+https://bpr.berkeley.edu/2017/10/31/the-scourge-of-south-korea-stress-and-suicide-in-korean-society/
