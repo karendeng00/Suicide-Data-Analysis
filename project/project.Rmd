@@ -16,17 +16,12 @@ You can add sections as you see fit. Make sure you have a section called Introdu
 
 ### Introduction
 
-### Load Data and Libraries
-
 ```{r load-data, message=FALSE}
 library(tidyverse)
 library(broom)
 suicides <- read_csv("/cloud/project/data/master.csv")
 ```
 
-### Edit Data Set
-
-Renamed variables with spaces:
 
 ```{r suicides}
 suicides <- suicides %>%
@@ -43,6 +38,14 @@ suicides <- suicides %>%
          country_year = `country-year`) %>%
   filter(year != "2016")
 ```
+
+```{r relevel-generation-age}
+suicides <- suicides %>%
+  mutate(Generation = fct_relevel(Generation, "G.I. Generation", "Silent", "Boomers", "Generation X", "Millenials", "Generation Z"))
+suicides <- suicides %>%
+  mutate(Age = fct_relevel(Age, "5-14 years", "15-24 years", "25-34 years", "35-54 years", "55-74 years", "75+ years"))
+```
+
 
 ### Suicides and Location
 
@@ -82,6 +85,8 @@ ggplot(data = extreem, mapping=aes(x = year , y = suicides_per_100k_pop, color =
 
 ### Suicides and Economic Situation over all Time
 
+We wanted to see if there was a correlation between proportion of suicides and the economic situation in each country. The measure of the economic situation in this data set is GDP per capita measured in US$. We thus created a linear model that visualized the number of suicides per 100k of the population versus the GDP per capita. The graph used data from all countries in the dataset and from the years 1980-2015. There are a lot of data points on the graph and they are all quite scattered. When we fit a linear regression to the graph it gave the equation given below the graph and had an r-squared value also shown below the graph. The very low r-squared value and the very weak positive relationship the regression model gave, indicate that there is little, if any, relationship between GDP per capita and the number of suicides per 100k of the population.  
+
 ```{r create-dataframe-grouping-data-countryyear}
 #aggregated all the suicides/100k pop data per country-year
 suicides_grouped <- aggregate(suicides_per_100k_pop ~ country_year, data = suicides, FUN=sum)
@@ -107,11 +112,19 @@ tidy(model_gdp_suicides)
 glance(model_gdp_suicides)$r.squared
 ```
 
-Equation for the linear model is: (Suicides per 100k of the population-hat) = (1.533301e+02) + (1.830459e-05*GDP per capita($)) 
-R-squared value is: 8.740802e-06
+Equation for the linear model is: (Suicides per 100k of the population-hat) = (153) + (0.0000243*GDP per capita($)) 
+
+R-squared value is: 1.534907e-05
+
+The intercept of this model is 153. This means that for a country with a GDP per capita ($) the number of suicides per 100k of the population would be expected to be, on average, 153.
+
+The slope of this model is 0.0000243. This means that for every $1 increase in GDP per capita, the number of suicides per 100k of the population is expected to increase, on average, by 0.0000243.
+
+The r-squared is 1.534907e-05. This means that the GDP per capita in US$ explains 0.00153% of variability in the number of suicides per 100k of the population.
 
 ### Suicides and Economic Situation in 2015
 
+Because the previous graph showed so much variability in how GDP per capita affected the proportion of suicides, we were curious to see if the relationship would prove to be clearer by focusing on a single time period. We also thought that GDP per capita might be an imperfect statistic in tracking relative economic affluence over a large period of time. For this reason we made the same visualization and linear regression model, but this time only using data from 2015. This model showed a slightly larger positive correlation between increasing GDP per capita ($) and number of suicides per 100k of the population, but the r-squared value was still not high enough to show any significant correlation. 
 ```{r create-dataframe-grouping-data-countryyear-2015}
 suicides_current <- suicides %>%
   filter(Year == "2015")
@@ -126,7 +139,7 @@ suicide_economics_current <- merge(suicides, suicides_grouped_current, by.x = "c
 
 ```{r vis-suicide-gdp-per-capita-2015}
 ggplot(data = suicide_economics_current, mapping = aes(x = gdp_per_capita, y = suicides_per_100k_pop.y)) + 
-  geom_point(size = 0.1, color = "blue") +
+  geom_point(size = 0.5, color = "blue") +
   geom_smooth(method = "lm", se = FALSE,
               col = "orange") +
   labs(title = "Suicides per 100k of the population vs. GDP per capita",
@@ -140,13 +153,14 @@ model_gdp_suicides_current <- lm(suicides_per_100k_pop.y ~ gdp_per_capita, data 
 tidy(model_gdp_suicides_current)
 glance(model_gdp_suicides_current)$r.squared
 ```
-Equation for the linear model is: (Suicides per 100k of the population-hat) = (1.274415e+02) + (2.168189e-04*GDP per capita($)) 
-R-squared value is: 0.003774998
+Equation for the linear model is: (Suicides per 100k of the population-hat) = (127) + (2.168189e-04*GDP per capita($)) 
+
+The R-squared value is: 0.003774998
 
 ### Suicides and Generation
 
 ```{r vis-generation-suicides}
-ggplot(data = suicides, mapping = aes(x = generation, y = suicides_per_100k_pop)) +
+ggplot(data = suicides, mapping = aes(x = Generation, y = suicides_per_100k_pop)) +
   geom_boxplot() +
   coord_flip() +
   labs(title = "Suicides per 100k of the population vs. Generation",
@@ -159,7 +173,8 @@ ggplot(data = suicides, mapping = aes(x = generation, y = suicides_per_100k_pop)
 ```{r vis-generation-suicides-current}
 suicides_current <- suicides %>%
   filter(Year == "2015")
-ggplot(data = suicides_current, mapping = aes(x = generation, y = suicides_per_100k_pop)) +
+ggplot(data = suicides_current, mapping = aes(x = Generation, y = suicides_per_100k_pop)) +
+  coord_flip() +
   geom_boxplot() +
   labs(title = "Suicides per 100k of the population vs. Generation",
        subtitle = "in 2015",
