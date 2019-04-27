@@ -33,6 +33,7 @@ suicides <- suicides %>%
   mutate(Year = year,
          Age = age,
          Sex = sex,
+         Country = country,
          Generation = generation,
          Population = population,
          suicides_per_100k_pop = `suicides/100k pop`, 
@@ -64,6 +65,19 @@ ggplot(data = topcountries, mapping = aes(x = reorder(country,n), y = n)) +
 ```{r highest-rate-by-country}
 topcountries %>%
   slice(1:10)
+```
+
+```{r extreem}
+extreem <- suicides %>%
+  filter(country %in% c("Netherlands", "Ukraine"))
+```
+
+
+```{r suicide-happiness}
+ggplot(data = extreem, mapping=aes(x = year , y = suicides_per_100k_pop, color = country)) + 
+  geom_smooth()  +  
+  labs(title = "Number of Suicides/100K Population for Each Year", 
+       x = "Year", y = "Number of Suicides/100K Population")
 ```
 
 ### Suicides and Economic Situation over all Time
@@ -167,7 +181,7 @@ Create visualization to represent the number of suicides for each year:
 
 ```{r year-suicides-visualization}
 ggplot(data = year_suicides, mapping=aes(x = Year, y =  n)) + 
-  geom_col()  +  
+  geom_line()  +  
   labs(title = "Number of Suicides/100K Population for Each Year", 
        x = "Year", y = "Number of Suicides/100K Population")
 ```
@@ -187,7 +201,7 @@ Create visualization to represent the number of suicides/100k population for eac
 ```{r sex-suicides-visualization}
 ggplot(data = suicides_sex, mapping=aes(x = Sex, y =  n)) + 
   geom_col() +
-  labs(title = "Number of Suicides/100K Population by Gender", 
+  labs(title = "Number of Suicides/100K Population by Sex", 
        x = "Sex", y = "Number of Suicides per 100k Population")
 ```
 
@@ -237,11 +251,16 @@ ggplot(data = suicides_us, mapping=aes(x = Year, y =  n)) +
 
 To figure out which variables influence suicides the most, we will be doing a linear regression. 
 
-```{r all}
-# lm_suicides <- lm(country ~ Year + Sex + age + Population + suicides_no + cls_perc_eval + cls_students + cls_level + cls_profs + cls_credits + bty_avg, data = evals)
-# glance(m_score)$adj.r.squared
-
-```
+# ```{r all}
+# full_model <- lm(suicides_per_100k_pop ~ Age + Year + Country + Sex +
+#                    Generation Population + gdp_for_year + gdp_per_capita +
+#                    HDI_for_year + country_year, data = suicides)
+# ```
+# 
+# 
+# ```{r select}
+# selected_model <- step(full_model, direction = "backward")
+# ```
 
 
 ### Shiny App
