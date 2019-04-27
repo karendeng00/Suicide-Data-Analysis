@@ -33,16 +33,18 @@ suicides <- suicides %>%
   mutate(Year = year,
          Age = age,
          Sex = sex,
+         Generation = generation,
          Population = population,
          suicides_per_100k_pop = `suicides/100k pop`, 
          gdp_for_year = `gdp_for_year ($)`, 
          gdp_per_capita = `gdp_per_capita ($)`,
+         HDI_for_year = `HDI for year`,
          country_year = `country-year`)
 ```
 
 ### Suicides and Location
 
-```{r country-plot, fig.height=15, fig.width=8}
+```{r country-plot, fig.height=12, fig.width=8}
 topcountries <- suicides %>%
   group_by(country) %>%
   summarise(n = mean(suicides_per_100k_pop)) %>%
@@ -59,7 +61,8 @@ ggplot(data = topcountries, mapping = aes(x = reorder(country,n), y = n)) +
 ```
 
 ```{r highest-rate-by-country}
-topcountries
+topcountries %>%
+  slice(1:10)
 ```
 
 ### Suicides and Economic Situation over all Time
@@ -249,8 +252,8 @@ ui <- fluidPage(
             # Select variable for x-axis
             selectInput(inputId = "x", 
                         label = "X-axis:",
-                        choices = c("Year", "Sex", "Age", "Population", "gdp_for_year",
-                                    "gdp_per_capita", "`HDI for year`"),
+                        choices = c("Year", "Sex", "Age", "Generation", "Population", "gdp_for_year",
+                                    "gdp_per_capita", "HDI_for_year"),
                         selected = "Year"),
             
             # Select variable for y-axis
@@ -284,7 +287,7 @@ server <- function(input, output) {
     # Create scatterplot object the plotOutput function is expecting
     output$plot <- renderPlot({
       
-      if(input$x %in% c("Age", "Sex", "generation")){
+      if(input$x %in% c("Age", "Sex", "Generation")){
          ggplot(data = subset(suicides, country %in% input$country_data), 
                 aes_string(x = input$x, y = input$y)) +
             geom_boxplot()
