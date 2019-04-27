@@ -39,7 +39,8 @@ suicides <- suicides %>%
          gdp_for_year = `gdp_for_year ($)`, 
          gdp_per_capita = `gdp_per_capita ($)`,
          HDI_for_year = `HDI for year`,
-         country_year = `country-year`)
+         country_year = `country-year`) %>%
+  filter(year != "2016")
 ```
 
 ### Suicides and Location
@@ -184,8 +185,8 @@ suicides_sex <- suicides %>%
 Create visualization to represent the number of suicides/100k population for each year:
 
 ```{r sex-suicides-visualization}
-ggplot(data = suicides, mapping=aes(x = Sex, y =  suicides_per_100k_pop)) + 
-  geom_boxplot() +
+ggplot(data = suicides_sex, mapping=aes(x = Sex, y =  n)) + 
+  geom_col() +
   labs(title = "Number of Suicides/100K Population by Gender", 
        x = "Sex", y = "Number of Suicides per 100k Population")
 ```
