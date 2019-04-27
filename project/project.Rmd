@@ -40,6 +40,7 @@ suicides <- suicides %>%
          gdp_per_capita = `gdp_per_capita ($)`,
          HDI_for_year = `HDI for year`,
          country_year = `country-year`)
+suicides
 ```
 
 ### Suicides and Location
@@ -195,17 +196,28 @@ Compare number of suicides/100k population for each sex per year:
 ```{r year-sex-suicides}
 year_sex <- suicides %>%
   group_by(Year, Sex) %>% 
-  summarize(n = sum(suicides_per_100k_pop))
+  summarize( n = sum(suicides_per_100k_pop))
+year_sex
 ```
 
 Create visualization to represent proportions of gender for number of suicides/100K population by year:
 
 ```{r year-sex-visualization}
-ggplot(data = year_sex, mapping=aes(x = Year, fill = Sex)) + 
-  geom_bar(position = "fill")  +  
+ggplot(data = year_sex, mapping=aes(x = Year, y =n, fill = Sex)) + 
+  geom_bar(stat = "identity", position = "dodge")  +  
   labs(title = "Proportions of Gender for Number of Suicides/100K Population By Year", 
        x = "Year", y = "Number of Suicides/100K Population")
 ```
+
+Becaus there are interesting trends over time beginning to make themselves evident in the visualization, we made a line graph. 
+
+```{r line}
+ggplot(year_sex, aes(x = Year, y = n, color = Sex)) +
+    geom_line() +
+    labs(title = "Changes in Male and Female Suicide Rates Over Time",
+         x = "Year", y = "Number of Suicides per 100k People")
+```
+
 
 ### Suicides in the United States
 
@@ -231,6 +243,15 @@ ggplot(data = suicides_us, mapping=aes(x = Year, y =  n)) +
 ```
 
 ### Linear Modeling 
+
+To figure out which variables influence suicides the most, we will be doing a linear regression. 
+
+```{r all}
+# lm_suicides <- lm(country ~ Year + Sex + age + Population + suicides_no + cls_perc_eval + cls_students + cls_level + cls_profs + cls_credits + bty_avg, data = evals)
+# glance(m_score)$adj.r.squared
+
+```
+
 
 ### Shiny App
 
