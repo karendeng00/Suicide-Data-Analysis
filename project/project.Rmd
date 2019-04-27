@@ -30,12 +30,15 @@ Renamed variables with spaces:
 
 ```{r suicides}
 suicides <- suicides %>%
-  mutate(suicides_per_100k_pop = `suicides/100k pop`, 
+  mutate(Year = year,
+         Age = age,
+         Sex = sex,
+         Population = population,
+         suicides_per_100k_pop = `suicides/100k pop`, 
          gdp_for_year = `gdp_for_year ($)`, 
          gdp_per_capita = `gdp_per_capita ($)`,
          country_year = `country-year`)
 ```
-
 
 ### Suicides and Location
 
@@ -58,7 +61,6 @@ ggplot(data = topcountries, mapping = aes(x = reorder(country,n), y = n)) +
 ```{r highest-rate-by-country}
 topcountries
 ```
-
 
 ### Suicides and Economic Situation over all Time
 
@@ -86,6 +88,7 @@ model_gdp_suicides <- lm(suicides_per_100k_pop.y ~ gdp_per_capita, data = suicid
 tidy(model_gdp_suicides)
 glance(model_gdp_suicides)$r.squared
 ```
+
 Equation for the linear model is: (Suicides per 100k of the population-hat) = (1.533301e+02) + (1.830459e-05*GDP per capita($)) 
 R-squared value is: 8.740802e-06
 
@@ -93,7 +96,7 @@ R-squared value is: 8.740802e-06
 
 ```{r create-dataframe-grouping-data-countryyear-2015}
 suicides_current <- suicides %>%
-  filter(year == "2015")
+  filter(Year == "2015")
 
 #aggregated all the suicides/100k pop data per country-year
 suicides_grouped_current <- aggregate(suicides_per_100k_pop ~ country_year, data = suicides_current, FUN=sum)
@@ -137,7 +140,7 @@ ggplot(data = suicides, mapping = aes(x = generation, y = suicides_per_100k_pop)
 
 ```{r vis-generation-suicides-current}
 suicides_current <- suicides %>%
-  filter(year == "2015")
+  filter(Year == "2015")
 ggplot(data = suicides_current, mapping = aes(x = generation, y = suicides_per_100k_pop)) +
   geom_boxplot() +
   labs(title = "Suicides per 100k of the population vs. Generation",
@@ -152,14 +155,14 @@ Group number of suicides together by year to find number of suicides for each ye
 
 ```{r year-suicides}
 year_suicides<- suicides %>%
-  group_by(year) %>% 
+  group_by(Year) %>% 
   summarize(n = sum(suicides_per_100k_pop))
 ```
 
 Create visualization to represent the number of suicides for each year:
 
 ```{r year-suicides-visualization}
-ggplot(data = year_suicides, mapping=aes(x = year, y =  n)) + 
+ggplot(data = year_suicides, mapping=aes(x = Year, y =  n)) + 
   geom_col()  +  
   labs(title = "Number of Suicides/100K Population for Each Year", 
        x = "Year", y = "Number of Suicides/100K Population")
@@ -167,33 +170,35 @@ ggplot(data = year_suicides, mapping=aes(x = year, y =  n)) +
 
 ### Suicides and Sex
 
-Group number of suicides together by sex to find number of suicides for each sex:
+Group number of suicides/100k population together by sex to find number of suicides/100k population for each sex:
 
 ```{r sex-suicide}
 suicides_sex <- suicides %>%
-  group_by(sex) %>%
+  group_by(Sex) %>%
   summarize(n = sum(suicides_per_100k_pop))
 ```
 
-Create visualization to represent the number of suicides for each year:
+Create visualization to represent the number of suicides/100k population for each year:
 
 ```{r sex-suicides-visualization}
-ggplot(data = suicides, mapping=aes(x = sex, y =  suicides_per_100k_pop)) + 
+ggplot(data = suicides, mapping=aes(x = Sex, y =  suicides_per_100k_pop)) + 
   geom_boxplot() +
   labs(title = "Number of Suicides/100K Population by Gender", 
        x = "Sex", y = "Number of Suicides per 100k Population")
 ```
 
-Compare number of suicides for each sex per year:
+Compare number of suicides/100k population for each sex per year:
 
 ```{r year-sex-suicides}
 year_sex <- suicides %>%
-  group_by(year, sex) %>% 
+  group_by(Year, Sex) %>% 
   summarize(n = sum(suicides_per_100k_pop))
 ```
 
+Create visualization to represent proportions of gender for number of suicides/100K population by year:
+
 ```{r year-sex-visualization}
-ggplot(data = year_sex, mapping=aes(x = year, fill = sex)) + 
+ggplot(data = year_sex, mapping=aes(x = Year, fill = Sex)) + 
   geom_bar(position = "fill")  +  
   labs(title = "Proportions of Gender for Number of Suicides/100K Population By Year", 
        x = "Year", y = "Number of Suicides/100K Population")
@@ -201,15 +206,25 @@ ggplot(data = year_sex, mapping=aes(x = year, fill = sex)) +
 
 ### Suicides in the United States
 
+Select data for number of suicides in the United States only:
+
 ```{r us-data}
 suicides_us <- suicides %>%
-  filter(country == "United States")
+  filter(country == "United States") %>%
+  group_by(Year) %>%
+  summarize(n = sum(suicides_per_100k_pop))
+
+suicides_us
 ```
+
+Create visualization to represent the number of suicides/100k population over time for the US:
 
 ```{r us-suicides-over-time}
-
+ggplot(data = suicides_us, mapping=aes(x = Year, y =  n)) + 
+  geom_col()  +  
+  labs(title = "Number of Suicides/100K Population for Each Year in the United States", 
+       x = "Year", y = "Number of Suicides/100K Population")
 ```
-
 
 ### Linear Modeling 
 
@@ -233,14 +248,14 @@ ui <- fluidPage(
             # Select variable for x-axis
             selectInput(inputId = "x", 
                         label = "X-axis:",
-                        choices = c("year", "sex", "age", "population", "gdp_for_year",
+                        choices = c("Year", "Sex", "Age", "Population", "gdp_for_year",
                                     "gdp_per_capita", "`HDI for year`"),
-                        selected = "year"),
+                        selected = "Year"),
             
             # Select variable for y-axis
             selectInput(inputId = "y", 
                         label = "Y-axis:",
-                        choices = c("suicides_suicides_per_100k_pop", "suicides_per_100k_pop"), 
+                        choices = c("suicides_no", "suicides_per_100k_pop"), 
                         selected = "suicides_per_100k_pop"),
             
             # Show data table
@@ -268,7 +283,7 @@ server <- function(input, output) {
     # Create scatterplot object the plotOutput function is expecting
     output$plot <- renderPlot({
       
-      if(input$x %in% c("age", "sex", "generation")){
+      if(input$x %in% c("Age", "Sex", "generation")){
          ggplot(data = subset(suicides, country %in% input$country_data), 
                 aes_string(x = input$x, y = input$y)) +
             geom_boxplot()
