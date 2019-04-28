@@ -99,7 +99,6 @@ topcountries %>%
 
 By sorting the data and differentiating the suicide rates of countries, we are able to look at and compare individual countries. For instance, lots of countries claim that they are the happiest nation. We can see if there is any comparison between happiness and rates of suicide in specific nations. For instance, we decided to compare The Netherlands and Ukraine. The Netherlands is ranked #5 in the World Happiness Report while Ukraine is ranked #133. 
 
-
 ```{r extreem}
 extreem <- suicides %>%
   filter(country %in% c("Netherlands", "Ukraine"))
@@ -255,8 +254,9 @@ ggplot(data = suicides_grouped_sex, mapping = aes(x = Year, y = suicides_per_100
        y = "Suicides per 100k of the population")
 ```
 
-
 ### Suicides and Year
+
+We also observed the relationship between the average number of suicides/100k population for each year over time. The highest average number of suicides was 15.7 suicides/100k population in 1995. Suicides have been declining since then. On average, there was an average of 12.7 suicides/100k population across all the years. 
 
 ```{r year-suicides}
 year_suicides<- suicides %>%
@@ -264,16 +264,12 @@ year_suicides<- suicides %>%
   summarize(n = mean(suicides_per_100k_pop))
 ```
 
-Create visualization to represent the mean number of suicides/100k population for each year:
-
 ```{r year-suicides-visualization}
 ggplot(data = year_suicides, mapping=aes(x = Year, y =  n)) + 
   geom_line(color = "blue")  +  
   labs(title = "Mean Number of Suicides/100K Population for Each Year", 
        x = "Year", y = "Mean Number of Suicides/100K Population")
 ```
-
-Calculate summary statistics for mean number of suicides/100k population over the years:
 
 ```{r summary-year-suicides}
 year_suicides %>%
@@ -285,8 +281,7 @@ year_suicides %>%
             iqr = (q3 - q1))
 ```
 
-The highest average number of suicides was 15.7 suicides/100k population in 1995. Suicides have been declining since then. On average, there was an average of 12.7 suicides/100k population across all the years. 
-
+### Suicides and Year in the United States
 
 ```{r us-suicides}
 us_suicides <- suicides %>%
@@ -295,7 +290,7 @@ us_suicides <- suicides %>%
   summarize(n = mean(suicides_per_100k_pop))
 ```
 
-Create visualization to represent the mean number of suicides/100k population for each year in the US:
+Next, we looked specifically at the average number of suicides/100k population for the United States. Across all the years, the US has an average number of suicides/100k population of 13.8. The highest average number of suicides/100K population occuring in the United States was 16 suicides in 1986 and 1987. Since 2006, the graph shows that suicides have been increasing. This increase in suicides can be linked to the financial crisis in 2007. Increased suicides were caused by job loss, home foreclosures, and debt from the unanticipated national housing downturn. Unemployment also caused higher divorce rates and abuse rates in homes in the US.
 
 ```{r us-suicides-visualization}
 ggplot(data = us_suicides, mapping=aes(x = Year, y =  n)) + 
@@ -303,8 +298,6 @@ ggplot(data = us_suicides, mapping=aes(x = Year, y =  n)) +
   labs(title = "Mean Number of Suicides/100K Population for Each Year in the United States", 
        x = "Year", y = "Mean Number of Suicides/100K Population")
 ```
-
-Calculate summary statistics for mean number of suicides/100k population over the years in the US:
 
 ```{r summary-us-suicides}
 us_suicides %>%
@@ -316,17 +309,15 @@ us_suicides %>%
             iqr = (q3 - q1))
 ```
 
-Across all the years, the US has an average number of suicides/100k population of 13.8. The highest average number of suicides/100K population occuring in the United States was 16 suicides in 1986 and 1987. Since 2006, the graph shows that suicides have been increasing. This increase in suicides can be linked to the financial crisis in 2007. Increased suicides were caused by job loss, home foreclosures, and debt from the unanticipated national housing downturn. Unemployment also caused higher divorce rates and abuse rates in homes in the US.
-
 ### Suicides and Sex
+
+Next, we observed the realationship between suicide and sex. In the visualization and data collected from the dataset, the mean number of suicides/100k population for females was 5.4 suicides while for males, was 20.2 suicides. Males had 3.7 times the number of suicides as females. This was contributed to the fact that men were more likely to die from suicides, even though women were found to attempt suicides 3-4 times more often than men. Men used more lethal means for suicide because men were more comfortable with guns, while women took pills and were less likely to die from their suicide attempts. There is also evidence that shows that men are not as inclined to seek help for mental disorders because of their masculine ideals, and their mental health declines and feelings build up with no escape, unlike women who are more likely to seek help before escalating to suicide.  
 
 ```{r sex-suicide}
 suicides_sex <- suicides %>%
   group_by(Sex) %>%
   summarize(n = mean(suicides_per_100k_pop))
 ```
-
-Create visualization to represent the mean number of suicides/100k population for each year:
 
 ```{r sex-suicides-visualization}
 ggplot(data = suicides_sex, mapping=aes(x = Sex, y =  n, fill = Sex)) + 
@@ -335,15 +326,11 @@ ggplot(data = suicides_sex, mapping=aes(x = Sex, y =  n, fill = Sex)) +
        x = "Sex", y = "Mean Number of Suicides per 100k Population")
 ```
 
-In the visualization and data collected from the dataset, the mean number of suicides/100k population for females was 5.4 suicides while for males, was 20.2 suicides. Males had 3.7 times the number of suicides as females. This was contributed to the fact that men were more likely to die from suicides, even though women were found to attempt suicides 3-4 times more often than men. Men used more lethal means for suicide because men were more comfortable with guns, while women took pills and were less likely to die from their suicide attempts. There is also evidence that shows that men are not as inclined to seek help for mental disorders because of their masculine ideals, and their mental health declines and feelings build up with no escape, unlike women who are more likely to seek help before escalating to suicide.  
-
 ```{r year-sex-suicides}
 year_sex <- suicides %>%
   group_by(Year, Sex) %>% 
   summarize( n = mean(suicides_per_100k_pop))
 ```
-
-Create visualization to represent proportions of gender for number of suicides/100K population by year:
 
 ```{r line}
 ggplot(year_sex, aes(x = Year, y = n, color = Sex)) +
@@ -351,7 +338,6 @@ ggplot(year_sex, aes(x = Year, y = n, color = Sex)) +
     labs(title = "Changes in Male and Female Suicide Rates Over Time",
          x = "Year", y = "Mean Number of Suicides per 100k People")
 ```
-
 
 ### Linear Modeling 
 
