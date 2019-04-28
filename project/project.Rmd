@@ -211,6 +211,7 @@ ggplot(data = suicides, mapping = aes(x = Generation, y = suicides_per_100k_pop)
 ### Suicides and Age Group
 
 Next, we decided to look at what age people are most likely to commit suicide. The boxplot below shows a clear positive trend in increasing age and proportion of suicides. From the summary statistics shown below the graph, we can infer that a person 75+ years of age is almost two times more likely to commit suicide than someone between 25 and 34 years old. 
+
 ```{r vis-age-suicides}
 ggplot(data = suicides, mapping = aes(x = Age, y = suicides_per_100k_pop)) +
   coord_flip() +
@@ -237,6 +238,7 @@ suicides %>%
 ### Suicides Rates Among Young People in the US over Time
 
 Though 5-14 year olds clearly have the lowest suicide rates of any age group, we were curious to see if their suicide rates had increased in the US over time. The reason we were curious about this is because we have seen a lot of things in the news recently about increased mental health issues in the US among school-aged children. We therefore wanted to see if that trend was reflected in increased suicide rates among very young people. The graph below shows that unfortunately, suicide do seem to have spiked recently among 5-14 year olds in the US. They reached a peak in 2014 when there were 2.04 suicides per 100k people in the population. Suicide rates climbed to that peak from a low of 0.9 per 100k people in 2007. In 2015 suicide rates dropped slightly from 2014, and we are hopeful that that downward trend will continue.
+
 ```{r young-data-us}
 suicides_us <- suicides %>%
   filter(Country == "United States")
@@ -455,6 +457,12 @@ In the analysis of generations we also found an interesting outlier in the Silen
 We then performed an analysis on the link between age and suicide rate. We found, through boxplots, that the older someone is, the more likely they are to commit suicide. 
 
 We were then curious whether the US would show increased rates of suicide among the youngest age group in recent years due to an increase in mental health issues we had heard a lot about. Though our data certainly does not prove any causation between increased mental health issues in school age children and an increase in the proportion of suicides, our data did find a peak in suicide rates among 5-14 year olds in the US in 2014. 
+
+Next, we looked at average number of suicides/100k population over time for each year. We observed that over time, suicides rates changed over time. For suicides worldwide, we saw an increase and then a decrease from 1985-2015. We contributed this to different circumstances like economic crises characteristic of each year which influenced suicide rates.
+
+We also examined average number of suicides/100k population in the United States and observed higher average and peak suicides in the United States compared to world suicide rates. The United States also has opposite direction in increases and decreases in suicide rates compared to world rates. 
+
+Next, we looked at the relationship between suicides and sex. Men were around 3.7 times more likely to commit suicide than females. This may be contributed to how males were more likely to die from suicide attempts because they used lethal means to commit suicide (like using guns), whereas women were less likely to die from attempts because they were more likely to use pills. Men were also found to hide their feelings because of masculinity ideals, using suicide as an escape. 
 
 When coming to these conclusions and interpreting these data, one must keep in 
 
