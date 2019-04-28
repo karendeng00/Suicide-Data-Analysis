@@ -18,7 +18,7 @@ The research question for this project is: Do location, year, sex, and economic 
 
 ### Load Data and Packages & Organize Data
 
-To begin, we loaded the suicide data as well as the broom and tidyverse packages we will use throughout our analysis. We then renamed our variables so they would be easier to work with, such as removing the dollar sign from their name. In addition, we filtered out the 2016 data because it was not collected throughout the entire year, the collection was cut off and the data does not match other years. Lastly, we releveled our generation and age variables so when we plot the categorical data they are in logical order.
+To begin, we loaded the suicide data as well as the broom and tidyverse packages we will use throughout our analysis. We then renamed our variables so they would be easier to work with, such as removing the dollar sign from their name. In addition, we filtered out the 2016 data because it was not collected throughout the entire year, the collection was cut off and the volume of data does not match other years. Lastly, we releveled our generation and age variables so when we plot the categorical data they are in logical order.
 
 ```{r load-data, message=FALSE}
 library(tidyverse)
@@ -51,7 +51,7 @@ suicides <- suicides %>%
 
 ### Suicides and Location
 
-To begin, we wanted to investigate which countries have the highest rate of suicide amongst their population in an average year (1984-2015). We created a bar graph that includes all of the countries in the data with their respective number of suicides per 100k population.
+To begin, we wanted to investigate which countries have the highest rate of suicide amongst their population in an average year (1985-2015). We created a bar graph that includes all of the countries in the data with their respective number of suicides per 100k population.
 
 ```{r country-plot, fig.height=12, fig.width=8}
 topcountries <- suicides %>%
@@ -90,7 +90,7 @@ topcountries %>%
             iqr = (q3 - q1))
 ```
 
-By sorting the data and differentiating the suicide rates of countries, we are able to look at and compare individual countries. For instance, lots of countries claim that they are the happiest nation. We can see if there is any comparison between happiness and rates of suicide in specific nations. For instance, we decided to compare The Netherlands and Ukraine- Netherlands which is ranked #5 in the World Happiness Report while Ukraine is ranked #133. 
+By sorting the data and differentiating the suicide rates of countries, we are able to look at and compare individual countries. For instance, lots of countries claim that they are the happiest nation. We can see if there is any comparison between happiness and rates of suicide in specific nations. For instance, we decided to compare The Netherlands and Ukraine. The Netherlands is ranked #5 in the World Happiness Report while Ukraine is ranked #133. 
 
 
 ```{r extreem}
@@ -106,11 +106,11 @@ ggplot(data = extreem, mapping=aes(x = year , y = suicides_per_100k_pop, color =
        x = "Year", y = "Number of Suicides/100K Population")
 ```
 
-As demonstrated in the visualization, there is a significant difference in the suicide rates per 100k people between people in The Netherlands and Ukraine. Although correlation does not indicate causation, it is curious that there seems to be a relationship between happiness/saddness and suicide rates in a nation.
+As demonstrated in the visualization, there is a significant difference in the suicide rates per 100k people between people in The Netherlands and Ukraine. Although correlation does not indicate causation, it is interesting to note that there does seem to be a relationship between happiness and suicide rates in a nation.
 
 ### Suicides and Economic Situation over all Time
 
-We wanted to see if there was a correlation between proportion of suicides and the economic situation in each country. The measure of the economic situation in this data set is GDP per capita measured in US$. We thus created a linear model that visualized the number of suicides per 100k of the population versus the GDP per capita. The graph used data from all countries in the dataset and from the years 1980-2015. There are a lot of data points on the graph and they are all quite scattered. When we fit a linear regression to the graph it gave the equation given below the graph and had an r-squared value also shown below the graph. The very low r-squared value and the very weak positive relationship the regression model gave, indicate that there is little, if any, relationship between GDP per capita and the number of suicides per 100k of the population.  
+We wanted to see if there was a correlation between proportion of suicides and the economic situation in each country. The measure of the economic situation in this data set is GDP per capita measured in US$. We thus created a linear model that visualized the number of suicides per 100k of the population versus the GDP per capita. The graph used data from all countries in the dataset and from the years 1985-2015. There are a lot of data points on the graph and they are all quite scattered. When we fit a linear regression to the graph it gave the equation given below the graph and had an r-squared value also shown below the graph. The very low r-squared value and the very weak positive relationship the regression model gave, indicate that there is little, if any, relationship between GDP per capita and the number of suicides per 100k of the population.  
 
 ```{r create-dataframe-grouping-data-countryyear}
 #aggregated all the suicides/100k pop data per country-year
