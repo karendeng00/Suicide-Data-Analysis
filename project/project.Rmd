@@ -469,7 +469,8 @@ We also examined average number of suicides/100k population in the United States
 
 Next, we looked at the relationship between suicides and sex. Men were around 3.7 times more likely to commit suicide than females. This may be contributed to how males were more likely to die from suicide attempts because they used lethal means to commit suicide (like using guns), whereas women were less likely to die from attempts because they were more likely to use pills. Men were also found to hide their feelings because of masculinity ideals, using suicide as an escape. 
 
-When coming to these conclusions and interpreting these data, one must keep in 
+When coming to these conclusions and interpreting these data, one must keep in the data set. For instance, there is not detailed collection information such as method as it is a compilation of other data. Furthermore, it is known that suicides sometimes go falsely reported or unreported at all- for instance, suicides have been occasionally reported as farming or hunting accidents- so we will be conscious of this as we conduct the investigation. It has also come to our attention that not every nation is represented, which will limit our ability to compare truly worldwide, but we will be able to compare nation to nation and region to region. We also had to take out the year 2016 becuase the data did not seem to be complete. When analyzing the data from a dataset, one must keep in mind that the data sets they are using- we didn't have much information about the data collection and we had no way of verifying that it was correct. 
+ 
 
 ### Citations
 https://bpr.berkeley.edu/2017/10/31/the-scourge-of-south-korea-stress-and-suicide-in-korean-society/  
