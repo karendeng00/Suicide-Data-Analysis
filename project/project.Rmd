@@ -311,7 +311,7 @@ us_suicides %>%
 
 ### Suicides and Sex
 
-Next, we observed the realationship between suicide and sex. In the visualization and data collected from the dataset, the mean number of suicides/100k population for females was 5.4 suicides while for males, was 20.2 suicides. Males had 3.7 times the number of suicides as females. This was contributed to the fact that men were more likely to die from suicides, even though women were found to attempt suicides 3-4 times more often than men. Men used more lethal means for suicide because men were more comfortable with guns, while women took pills and were less likely to die from their suicide attempts. There is also evidence that shows that men are not as inclined to seek help for mental disorders because of their masculine ideals, and their mental health declines and feelings build up with no escape, unlike women who are more likely to seek help before escalating to suicide.  
+Next, we observed the realationship between suicide and sex. In the visualization and data collected from the dataset, the mean number of suicides/100k population for females was 5.4 suicides while for males, was 20.2 suicides. Males had 3.7 times the number of suicides as females.
 
 ```{r sex-suicide}
 suicides_sex <- suicides %>%
@@ -339,12 +339,13 @@ ggplot(year_sex, aes(x = Year, y = n, color = Sex)) +
          x = "Year", y = "Mean Number of Suicides per 100k People")
 ```
 
+Given the visualizations above, there is an enormous difference between the suicide rates of males and females. Both seemed to peack in 1995, and then decreased, females more steadily than males. This difference was attributed to the fact that men were more likely to die from suicides, even though women were found to attempt suicides 3-4 times more often than men. Men used more lethal means for suicide because men were more comfortable with guns, while women took pills and were less likely to die from their suicide attempts. There is also evidence that shows that men are not as inclined to seek help for mental disorders because of their masculine ideals, and their mental health declines and feelings build up with no escape, unlike women who are more likely to seek help before escalating to suicide.  
+
 ### Linear Modeling 
 
 To figure out which variables influence suicides the most, we will be doing a linear regression. 
 
 ```{r full-model}
-nrow(suicides)
 #full_model <- lm(suicides_per_100k_pop ~ Age + Year + Country + Sex +
                   # Generation + Population + gdp_for_year +
                   # gdp_per_capita + HDI_for_year + country_year, data = suicides)
@@ -359,6 +360,10 @@ When we ran the full model selection, RStudio was becomming overloaded and crash
 ```{r select-model}
 selected_model <- step(full_model, direction = "backward")
 ```
+
+The model selection demonstrates that the one variable that does not provide statistically significant influence is the gdp_for_year. This indicates that all of the variables we have been investigating, Country, Year, Sex, Population, Generation and GDP/Capita, play a role in the changes in suicide rates. Knowing this can inform those working in suicide prevention and mental health awareness will know which areas of a person's life to target and work on. 
+
+We decided not to produce a linear model becuase the selection created coefficients for each nation, meaning that we would have well over 100 variables and coefficients in our linear model. 
 
 ### Shiny App
 
