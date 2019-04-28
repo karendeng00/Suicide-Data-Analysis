@@ -266,7 +266,7 @@ year_suicides<- suicides %>%
 
 ```{r year-suicides-visualization}
 ggplot(data = year_suicides, mapping=aes(x = Year, y =  n)) + 
-  geom_line(color = "blue")  +  
+  geom_line(color = "blue")  + geom_point(size = 1, color = "black") +  
   labs(title = "Mean Number of Suicides/100K Population for Each Year", 
        x = "Year", y = "Mean Number of Suicides/100K Population")
 ```
@@ -294,7 +294,7 @@ Next, we looked specifically at the average number of suicides/100k population f
 
 ```{r us-suicides-visualization}
 ggplot(data = us_suicides, mapping=aes(x = Year, y =  n)) + 
-  geom_line(color = "red")  +  
+  geom_line(color = "red")  +  geom_point(size = 1, color = "black") +  
   labs(title = "Mean Number of Suicides/100K Population for Each Year in the United States", 
        x = "Year", y = "Mean Number of Suicides/100K Population")
 ```
