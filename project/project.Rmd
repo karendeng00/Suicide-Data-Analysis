@@ -14,6 +14,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Load Data and Packages & Organize Data
 
+To begin, we loaded the suicide data as well as the broom and tidyverse packages we will use throughout our analysis. We then renamed our variables so they would be easier to work with, such as removing the dollar sign from their name. In addition, we filtered out the 2016 data because it was not collected throughout the entire year, the collection was cut off and the data does not match other years. Lastly, we releveled our generation and age variables so when we plot the categorical data they are in logical order.
+
 ```{r load-data, message=FALSE}
 library(tidyverse)
 library(broom)
@@ -43,8 +45,9 @@ suicides <- suicides %>%
   mutate(Age = fct_relevel(Age, "75+ years", "55-74 years", "35-54 years", "25-34 years", "15-24 years", "5-14 years"))
 ```
 
-
 ### Suicides and Location
+
+To begin, we wanted to investigate which countries have the highest rate of suicide amongst their population in an average year (1984-2015). We created a bar graph that includes all of the countries in the data with their respective number of suicides per 100k population.
 
 ```{r country-plot, fig.height=12, fig.width=8}
 topcountries <- suicides %>%
@@ -61,13 +64,19 @@ ggplot(data = topcountries, mapping = aes(x = reorder(country,n), y = n)) +
        y = "Count")
 ```
 
-```{r highest-rate-by-country}
+Because looking at the bar graph is overwhelming with so much data, we printed the 10 countries with the highest suicide rates averaged over the years and their respective rates. The country with the highest suicide rates are as follows: Lithuania, Sri Lanka, Russian Federation, Hungary, Belarus, Kazakhstan, Latvia, Slovenia, Estonia, Ukraine. Their respective rates are 40.6, 35.3, 34.9, 33.0, 31.1, 30.4, 29.3, 27.8, 27.3 and lastly 26.6 suicides per 100k people. Because the United States is not within the top ten, we also printed its suicide rate, 13.819 suicides per 100k people. This was included because many viewers of this analysis have a particular interest in the United States as they are from this location.
+
+```{r top10-and-US}
 topcountries %>%
  slice(1:10)
 
 topcountries %>%
   filter(country == "United States")
+```
 
+In addition to finding the 10 countries with the highest rates, we also looked at the summary statistics. On average, there are 11.969 suicides per 100k people in each country in a given year. There is a range of rates from 0 to 40.584 and a standard deviation of 9.373. This data is useful for comparing countries to the average. For example, the United States does not fall in countries with the highest 10 rates; however, the United States does have a suicide rate slightly above average.
+
+```{r highest-rate-by-country}
 topcountries %>%
   summarise(min = min(n), max = max(n),
             mean = mean(n), med = median(n),
@@ -287,6 +296,8 @@ full_model <- lm(suicides_per_100k_pop ~ Age + Year + Country + Sex +
 
 ### Shiny App
 
+An added feature to our project is a Shiny App. This feature allows a user to choose a country, and look at data specific to their country of choice. The Shiny App has all the variables as options on the x-axis, both categorical and numerical, and allows for the user to choose between the number of suicides, or suicides per 100k population. In order to account for both numerical and categorical variables on the x axis, there are two types of plots: a boxplot, and a scatterplot only showing the geom_smooth. One last feature is that the user can choose (by checking a box) whether or not to display the data in a table form beneath the plot.
+
 ```{r shinyapp}
 ui <- fluidPage(
     
@@ -370,6 +381,7 @@ shinyApp(ui, server)
 ### Conclusion
 
 ### Citations
-https://bpr.berkeley.edu/2017/10/31/the-scourge-of-south-korea-stress-and-suicide-in-korean-society/
+https://bpr.berkeley.edu/2017/10/31/the-scourge-of-south-korea-stress-and-suicide-in-korean-society/  
+
 https://s3.amazonaws.com/happiness-report/2019/WHR19.pdf
 
