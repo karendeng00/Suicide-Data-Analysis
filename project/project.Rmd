@@ -110,7 +110,7 @@ As demonstrated in the visualization, there is a significant difference in the s
 
 ### Suicides and Economic Situation over all Time
 
-We wanted to see if there was a correlation between proportion of suicides and the economic situation in each country. The measure of the economic situation in this data set is GDP per capita measured in US$. We thus created a linear model that visualized the number of suicides per 100k of the population versus the GDP per capita. The graph used data from all countries in the dataset and from the years 1985-2015. There are a lot of data points on the graph and they are all quite scattered. When we fit a linear regression to the graph it gave the equation given below the graph and had an r-squared value also shown below the graph. The very low r-squared value and the very weak positive relationship the regression model gave, indicate that there is little, if any, relationship between GDP per capita and the number of suicides per 100k of the population.  
+We wanted to see if there was a correlation between proportion of suicides and the economic situation in each country. The measure of the economic situation in this data set is GDP per capita measured in US$. The dataset also includes a variable for GDP the whole year, but we thought GDP per capita would probably be a better measure of a country's economic affluence because it takes into account the relative size of the population and doesn't unfairly favor larger countries to smaller ones. We thus created a linear model that visualized the number of suicides per 100k of the population versus the GDP per capita. The graph used data from all countries in the dataset and from the years 1985-2015. There are a lot of data points on the graph and they are all quite scattered. When we fit a linear regression to the graph it gave the equation given below the graph and had an r-squared value also shown below the graph. The very low r-squared value and the very weak positive relationship the regression model gave, indicate that there is little, if any, relationship between GDP per capita and the number of suicides per 100k of the population.  
 
 ```{r create-dataframe-grouping-data-countryyear}
 #aggregated all the suicides/100k pop data per country-year
@@ -190,7 +190,7 @@ The r-squared value is 0.003774998. This means that the GDP per capita ($) expla
 
 ### Suicides and Generation
 
-We wanted to also explore the link between generation and suicide rates. The boxplot shown below clearly shows that each older generation has higher suicide rates than the one after it, meaning that suicide rates are largely decreasing over time. This trend is mirrored in the trends of suicide rate over the years. 
+We wanted to also explore the link between generation and suicide rates. The boxplot shown below clearly shows that each older generation has higher suicide rates than the one after it, meaning that suicide rates are largely decreasing over time. This trend is mirrored in the trends of suicide rate over the years. However, the conclusions drawn from this graph are still not completely certain because all the generations included in the graph, other than the G.I. Generation and the Silent Generation, are still alive and will continue to show different suicide rates as time progresses. This is even more important when considering that older people show consistently higher suicide rates than younger people, so each generation that is still alive is expected to show higher suicide rates as they grow older.
 There does seem to be a cluster of outliers in the Silent generation that is even higher than most of the outliers in G.I. Generation. When we did some further digging into the possible causes of this, we found that those abnormally high suicide rates among the Silent generation were almost all due to Korea's high suicide rates in 75+ year old men between the years of 2003 and 2015. When we did further research we found that the cause of those abnormally high suicide rates is because the elderly have no source of income because the country's pension system only began in 1988. As the country advances many young people leave their parents behind. And even if the young continue to financially support their parents, the older generation does not want to be a financial burden. This is causing their abnormally high suicide rates.
 
 ```{r vis-generation-suicides}
@@ -464,6 +464,14 @@ shinyApp(ui, server)
 ```
 
 ### Conclusion
+
+Analyzing this dataset has shown a many new links between different variables and suicide rates. 
+Our anaylsis of the correlation between suicide rate and GDP per capita ($) showed that there was little to no correlation between the two variables. Even after filtering the data for just 2015, the linear regression fitted to the model showed that there was still no good correlation between the two variables. This indicates that a countries GDP per capita is not indicative of whether or not they have a high or low suicide rate.
+We also preformed an analysis on the link between different generations and suicide rates. To do this analysis we made a boxplot graph. The boxplot showed a clear trend: that older generation have had larger suicide rates than later generations. However, there is a caveat to this conclusion since many of the generations included in the boxplots are still alive, and thus their aggregate suicide rate over their whole lifetime is not complete yet.
+In the analysis of generations we also found an interesting outlier in the Silent Generation. This cluster of outliers was found to all be data points from Korean men in 2003 to 2015. Upon further exploration we found that the cause was financial stresses placed upon older populations in South Korea. 
+We then performed an analysis on the link between age and suicide rate. We found, through boxplots, that the older someone is, the more likely they are to commit suicide. 
+We were then curious whether the US would show increased rates of suicide among the youngest age group in recent years due to an increase in mental health issues we had heard a lot about. Though our data certainly does not prove any causation between increased mental health issues in school age children and an increase in the proportion of suicides, our data did find a peak in suicide rates among 5-14 year olds in the US in 2014. 
+
 
 ### Citations
 https://bpr.berkeley.edu/2017/10/31/the-scourge-of-south-korea-stress-and-suicide-in-korean-society/  
