@@ -258,14 +258,10 @@ ggplot(data = suicides_grouped_sex, mapping = aes(x = Year, y = suicides_per_100
 
 ### Suicides and Year
 
-Group number of suicides together by year to find mean number of suicides/100k population for each year:
-
 ```{r year-suicides}
 year_suicides<- suicides %>%
   group_by(Year) %>% 
   summarize(n = mean(suicides_per_100k_pop))
-
-year_suicides
 ```
 
 Create visualization to represent the mean number of suicides/100k population for each year:
@@ -276,8 +272,6 @@ ggplot(data = year_suicides, mapping=aes(x = Year, y =  n)) +
   labs(title = "Mean Number of Suicides/100K Population for Each Year", 
        x = "Year", y = "Mean Number of Suicides/100K Population")
 ```
-
-
 
 Calculate summary statistics for mean number of suicides/100k population over the years:
 
@@ -293,15 +287,12 @@ year_suicides %>%
 
 The highest average number of suicides was 15.7 suicides/100k population in 1995. Suicides have been declining since then. On average, there was an average of 12.7 suicides/100k population across all the years. 
 
-Group number of suicides together by year to find mean number of suicides/100K for each year in the US:
 
 ```{r us-suicides}
 us_suicides <- suicides %>%
   filter(Country == "United States") %>%
   group_by(Year) %>% 
   summarize(n = mean(suicides_per_100k_pop))
-
-us_suicides
 ```
 
 Create visualization to represent the mean number of suicides/100k population for each year in the US:
@@ -329,14 +320,10 @@ Across all the years, the US has an average number of suicides/100k population o
 
 ### Suicides and Sex
 
-Group number of suicides/100k population together by sex to find mean number of suicides/100k population for each sex:
-
 ```{r sex-suicide}
 suicides_sex <- suicides %>%
   group_by(Sex) %>%
   summarize(n = mean(suicides_per_100k_pop))
-
-suicides_sex
 ```
 
 Create visualization to represent the mean number of suicides/100k population for each year:
@@ -350,14 +337,10 @@ ggplot(data = suicides_sex, mapping=aes(x = Sex, y =  n, fill = Sex)) +
 
 In the visualization and data collected from the dataset, the mean number of suicides/100k population for females was 5.4 suicides while for males, was 20.2 suicides. Males had 3.7 times the number of suicides as females. This was contributed to the fact that men were more likely to die from suicides, even though women were found to attempt suicides 3-4 times more often than men. Men used more lethal means for suicide because men were more comfortable with guns, while women took pills and were less likely to die from their suicide attempts. There is also evidence that shows that men are not as inclined to seek help for mental disorders because of their masculine ideals, and their mental health declines and feelings build up with no escape, unlike women who are more likely to seek help before escalating to suicide.  
 
-Compare number of suicides/100k population for each sex per year:
-
 ```{r year-sex-suicides}
 year_sex <- suicides %>%
   group_by(Year, Sex) %>% 
   summarize( n = mean(suicides_per_100k_pop))
-
-year_sex
 ```
 
 Create visualization to represent proportions of gender for number of suicides/100K population by year:
