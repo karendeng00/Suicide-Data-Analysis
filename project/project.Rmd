@@ -360,7 +360,6 @@ When we ran the full model selection, RStudio was becomming overloaded and crash
 selected_model <- step(full_model, direction = "backward")
 ```
 
-
 ### Shiny App
 
 An added feature to our project is a Shiny App. This feature allows a user to choose a country, and look at data specific to their country of choice. The Shiny App has all the variables as options on the x-axis, both categorical and numerical, and allows for the user to choose between the number of suicides, or suicides per 100k population. In order to account for both numerical and categorical variables on the x axis, there are two types of plots: a boxplot, and a scatterplot only showing the geom_smooth. One last feature is that the user can choose (by checking a box) whether or not to display the data in a table form beneath the plot.
