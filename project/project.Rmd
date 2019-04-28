@@ -7,6 +7,9 @@ runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
+library(tidyverse)
+library(broom)
+library(ggplot2)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
@@ -372,14 +375,20 @@ ggplot(year_sex, aes(x = Year, y = n, color = Sex)) +
 To figure out which variables influence suicides the most, we will be doing a linear regression. 
 
 ```{r full-model}
+nrow(suicides)
+#full_model <- lm(suicides_per_100k_pop ~ Age + Year + Country + Sex +
+                  # Generation + Population + gdp_for_year +
+                  # gdp_per_capita + HDI_for_year + country_year, data = suicides)
+
 full_model <- lm(suicides_per_100k_pop ~ Age + Year + Country + Sex +
                    Generation + Population + gdp_for_year +
-                   gdp_per_capita + HDI_for_year + country_year, data = suicides)
+                   gdp_per_capita, data = suicides)
 ```
 
+When we ran the full model selection, RStudio was becomming overloaded and crashing, so we decided to pair down the number of variables in the model. We chose to keep the variables that we were investigating in the research question. Although this is not true to the entire dataset, it allows us to answer our research question given the circumstances. 
  
 ```{r select-model}
-#selected_model <- step(full_model, direction = "backward")
+selected_model <- step(full_model, direction = "backward")
 ```
 
 
@@ -471,11 +480,15 @@ shinyApp(ui, server)
 
 Analyzing this dataset has shown a many new links between different variables and suicide rates. 
 Our anaylsis of the correlation between suicide rate and GDP per capita ($) showed that there was little to no correlation between the two variables. Even after filtering the data for just 2015, the linear regression fitted to the model showed that there was still no good correlation between the two variables. This indicates that a countries GDP per capita is not indicative of whether or not they have a high or low suicide rate.
+
 We also preformed an analysis on the link between different generations and suicide rates. To do this analysis we made a boxplot graph. The boxplot showed a clear trend: that older generation have had larger suicide rates than later generations. However, there is a caveat to this conclusion since many of the generations included in the boxplots are still alive, and thus their aggregate suicide rate over their whole lifetime is not complete yet.
 In the analysis of generations we also found an interesting outlier in the Silent Generation. This cluster of outliers was found to all be data points from Korean men in 2003 to 2015. Upon further exploration we found that the cause was financial stresses placed upon older populations in South Korea. 
+
 We then performed an analysis on the link between age and suicide rate. We found, through boxplots, that the older someone is, the more likely they are to commit suicide. 
+
 We were then curious whether the US would show increased rates of suicide among the youngest age group in recent years due to an increase in mental health issues we had heard a lot about. Though our data certainly does not prove any causation between increased mental health issues in school age children and an increase in the proportion of suicides, our data did find a peak in suicide rates among 5-14 year olds in the US in 2014. 
 
+When coming to these conclusions and interpreting these data, one must keep in 
 
 ### Citations
 https://bpr.berkeley.edu/2017/10/31/the-scourge-of-south-korea-stress-and-suicide-in-korean-society/  
