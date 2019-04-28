@@ -12,6 +12,10 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Introduction
 
+This dataset provides statistics for suicides worldwide between 1985 and 2016. Each occurrence provided represents the country, year, sex, age (in groups), number of suicides, population, suicide rate for 100 thousand people, country-year, hdi (human development), gdp for the year (in USD), the gdp per capita (in USD), and the generation of a single suicide.
+
+The research question for this project is: Do location, year, sex, and economic situation contribute to suicide rates? 
+
 ### Load Data and Packages & Organize Data
 
 To begin, we loaded the suicide data as well as the broom and tidyverse packages we will use throughout our analysis. We then renamed our variables so they would be easier to work with, such as removing the dollar sign from their name. In addition, we filtered out the 2016 data because it was not collected throughout the entire year, the collection was cut off and the data does not match other years. Lastly, we releveled our generation and age variables so when we plot the categorical data they are in logical order.
@@ -86,7 +90,7 @@ topcountries %>%
             iqr = (q3 - q1))
 ```
 
-By sorting the data and differentiating the suicide rates of countries, we are able to look at and compare individual countries. For instance, lots of countries claim that they are the happiest nation. We can see if there is any comparison between happiness and rates of suicide in specific nations. For instnace, we decided to compare The Netherlands and Ukraine- Netherlands which is ranked #5 in the World Happiness Report while Ukraine is ranked #133. 
+By sorting the data and differentiating the suicide rates of countries, we are able to look at and compare individual countries. For instance, lots of countries claim that they are the happiest nation. We can see if there is any comparison between happiness and rates of suicide in specific nations. For instance, we decided to compare The Netherlands and Ukraine- Netherlands which is ranked #5 in the World Happiness Report while Ukraine is ranked #133. 
 
 
 ```{r extreem}
@@ -226,48 +230,105 @@ suicides %>%
 
 ### Suicides and Year
 
-Group number of suicides together by year to find number of suicides for each year:
+Group number of suicides together by year to find mean number of suicides/100k population for each year:
 
 ```{r year-suicides}
 year_suicides<- suicides %>%
   group_by(Year) %>% 
-  summarize(n = sum(suicides_per_100k_pop))
+  summarize(n = mean(suicides_per_100k_pop))
+
+year_suicides
 ```
 
-Create visualization to represent the number of suicides for each year:
+Create visualization to represent the mean number of suicides/100k population for each year:
 
 ```{r year-suicides-visualization}
 ggplot(data = year_suicides, mapping=aes(x = Year, y =  n)) + 
-  geom_line()  +  
-  labs(title = "Number of Suicides/100K Population for Each Year", 
-       x = "Year", y = "Number of Suicides/100K Population")
+  geom_line(color = "blue")  +  
+  labs(title = "Mean Number of Suicides/100K Population for Each Year", 
+       x = "Year", y = "Mean Number of Suicides/100K Population")
 ```
+
+
+
+Calculate summary statistics for mean number of suicides/100k population over the years:
+
+```{r summary-year-suicides}
+year_suicides %>%
+  summarise(min = min(n), max = max(n),
+            mean = mean(n), med = median(n),
+            sd = sd(n), 
+            q1 = quantile(n, probs = 0.25),
+            q3 = quantile(n, probs = 0.75),
+            iqr = (q3 - q1))
+```
+
+The highest average number of suicides was 15.7 suicides/100k population in 1995. Suicides have been declining since then. On average, there was an average of 12.7 suicides/100k population across all the years. 
+
+Group number of suicides together by year to find mean number of suicides/100K for each year in the US:
+
+```{r us-suicides}
+us_suicides <- suicides %>%
+  filter(Country == "United States") %>%
+  group_by(Year) %>% 
+  summarize(n = mean(suicides_per_100k_pop))
+
+us_suicides
+```
+
+Create visualization to represent the mean number of suicides/100k population for each year in the US:
+
+```{r us-suicides-visualization}
+ggplot(data = us_suicides, mapping=aes(x = Year, y =  n)) + 
+  geom_line(color = "red")  +  
+  labs(title = "Mean Number of Suicides/100K Population for Each Year in the United States", 
+       x = "Year", y = "Mean Number of Suicides/100K Population")
+```
+
+Calculate summary statistics for mean number of suicides/100k population over the years in the US:
+
+```{r summary-us-suicides}
+us_suicides %>%
+  summarise(min = min(n), max = max(n),
+            mean = mean(n), med = median(n),
+            sd = sd(n), 
+            q1 = quantile(n, probs = 0.25),
+            q3 = quantile(n, probs = 0.75),
+            iqr = (q3 - q1))
+```
+
+Across all the years, the US has an average number of suicides/100k population of 13.8. The highest average number of suicides/100K population occuring in the United States was 16 suicides in 1986 and 1987. Since 2006, the graph shows that suicides have been increasing. This increase in suicides can be linked to the financial crisis in 2007. Increased suicides were caused by job loss, home foreclosures, and debt from the unanticipated national housing downturn. Unemployment also caused higher divorce rates and abuse rates in homes in the US.
 
 ### Suicides and Sex
 
-Group number of suicides/100k population together by sex to find number of suicides/100k population for each sex:
+Group number of suicides/100k population together by sex to find mean number of suicides/100k population for each sex:
 
 ```{r sex-suicide}
 suicides_sex <- suicides %>%
   group_by(Sex) %>%
-  summarize(n = sum(suicides_per_100k_pop))
+  summarize(n = mean(suicides_per_100k_pop))
+
+suicides_sex
 ```
 
-Create visualization to represent the number of suicides/100k population for each year:
+Create visualization to represent the mean number of suicides/100k population for each year:
 
 ```{r sex-suicides-visualization}
-ggplot(data = suicides_sex, mapping=aes(x = Sex, y =  n)) + 
+ggplot(data = suicides_sex, mapping=aes(x = Sex, y =  n, fill = Sex)) + 
   geom_col() +
-  labs(title = "Number of Suicides/100K Population by Sex", 
-       x = "Sex", y = "Number of Suicides per 100k Population")
+  labs(title = "Mean Number of Suicides/100K Population by Sex", 
+       x = "Sex", y = "Mean Number of Suicides per 100k Population")
 ```
+
+In the visualization and data collected from the dataset, the mean number of suicides/100k population for females was 5.4 suicides while for males, was 20.2 suicides. Males had 3.7 times the number of suicides as females. This was contributed to the fact that men were more likely to die from suicides, even though women were found to attempt suicides 3-4 times more often than men. Men used more lethal means for suicide because men were more comfortable with guns, while women took pills and were less likely to die from their suicide attempts. There is also evidence that shows that men are not as inclined to seek help for mental disorders because of their masculine ideals, and their mental health declines and feelings build up with no escape, unlike women who are more likely to seek help before escalating to suicide.  
 
 Compare number of suicides/100k population for each sex per year:
 
 ```{r year-sex-suicides}
 year_sex <- suicides %>%
   group_by(Year, Sex) %>% 
-  summarize( n = sum(suicides_per_100k_pop))
+  summarize( n = mean(suicides_per_100k_pop))
+
 year_sex
 ```
 
@@ -277,7 +338,7 @@ Create visualization to represent proportions of gender for number of suicides/1
 ggplot(year_sex, aes(x = Year, y = n, color = Sex)) +
     geom_line() +
     labs(title = "Changes in Male and Female Suicide Rates Over Time",
-         x = "Year", y = "Number of Suicides per 100k People")
+         x = "Year", y = "Mean Number of Suicides per 100k People")
 ```
 
 
@@ -385,6 +446,10 @@ shinyApp(ui, server)
 
 ### Citations
 https://bpr.berkeley.edu/2017/10/31/the-scourge-of-south-korea-stress-and-suicide-in-korean-society/  
+
+https://www.forbes.com/sites/melaniehaiken/2014/06/12/more-than-10000-suicides-tied-to-economic-crisis-study-says/#41e912947ae2
+
+https://healthydebate.ca/2017/08/topic/male-suicide
 
 https://s3.amazonaws.com/happiness-report/2019/WHR19.pdf
 
