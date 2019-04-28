@@ -12,9 +12,13 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Introduction
 
-This dataset provides statistics for suicides worldwide between 1985 and 2016. Each occurrence provided represents the country, year, sex, age (in groups), number of suicides, population, suicide rate for 100 thousand people, country-year, hdi (human development), gdp for the year (in USD), the gdp per capita (in USD), and the generation of a single suicide.
+This dataset provides statistics for suicides worldwide between the years of 1985 and 2016. Each occurrence provided in the dataset represents the country, year, sex, age (in groups), number of suicides, population, suicide rate for 100 thousand people, country-year, hdi (human development), gdp for the year (in USD), the gdp per capita (in USD), and the generation of a single suicide.
 
-The research question for this project is: Do location, year, sex, and economic situation contribute to suicide rates? 
+The research question guiding this project is: 
+
+Do location, year, sex, and economic situation contribute to suicide rates? 
+
+This research is important and relevant becuase understanding the relationship between location, year (time period), gender, and economic situation and mental health is important. Understand predictors of suicide can indicate where preventative mesausres can aide in mental health awareness and education as well as constructive prevention. 
 
 ### Load Data and Packages & Organize Data
 
