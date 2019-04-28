@@ -19,9 +19,9 @@ This dataset provides statistics for suicides worldwide between the years of 198
 
 The research question guiding this project is: 
 
-Do location, year, sex, and economic situation contribute to suicide rates? 
+Do location, year, sex, and economic situation contribute to suicide rates?
 
-This research is important and relevant becuase understanding the relationship between location, year (time period), gender, and economic situation and mental health is important. Understand predictors of suicide can indicate where preventative mesausres can aide in mental health awareness and education as well as constructive prevention. 
+This research is important and relevant becuase understanding the relationship between location, year (time period), gender, and economic situation and mental health is important. Understand predictors of suicide can indicate where preventative measures can aid in mental health awareness and education as well as constructive prevention. 
 
 ### Load Data and Packages & Organize Data
 
