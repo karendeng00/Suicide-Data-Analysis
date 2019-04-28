@@ -228,6 +228,27 @@ suicides %>%
 ```
 
 
+### Suicides Rates Among Young People in the US over Time
+
+Though 5-14 year olds clearly have the lowest suicide rates of any age group, we were curious to see if their suicide rates had increased in the US over time. The reason we were curious about this is because we have seen a lot of things in the news recently about increased mental health issues in the US among school-aged children. We therefore wanted to see if that trend was reflected in increased suicide rates among very young people. The graph below shows that unfortunately, suicide do seem to have spiked recently among 5-14 year olds in the US. They reached a peak in 2014 when there were 2.04 suicides per 100k people in the population. Suicide rates climbed to that peak from a low of 0.9 per 100k people in 2007. In 2015 suicide rates dropped slightly from 2014, and we are hopeful that that downward trend will continue.
+```{r young-data-us}
+suicides_us <- suicides %>%
+  filter(Country == "United States")
+suicides_us_veryyoung <- suicides_us %>%
+  filter(Age == "5-14 years")
+suicides_grouped_sex <- aggregate(suicides_per_100k_pop ~ Year, data = suicides_us_veryyoung, FUN=sum)
+```
+
+```{r vis-young-us-overtime}
+ggplot(data = suicides_grouped_sex, mapping = aes(x = Year, y = suicides_per_100k_pop)) + 
+  geom_line(color = "red") + 
+  geom_point(color = "red") +
+  labs(title = "Suicide rates over time among 5-14 year olds in the US",
+       x = "Year",
+       y = "Suicides per 100k of the population")
+```
+
+
 ### Suicides and Year
 
 Group number of suicides together by year to find mean number of suicides/100k population for each year:
