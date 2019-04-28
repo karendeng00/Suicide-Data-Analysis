@@ -86,7 +86,8 @@ topcountries %>%
             iqr = (q3 - q1))
 ```
 
-Netherlands which is ranked #5 in the World Happiness Report while Ukraine is ranked #133.
+By sorting the data and differentiating the suicide rates of countries, we are able to look at and compare individual countries. For instance, lots of countries claim that they are the happiest nation. We can see if there is any comparison between happiness and rates of suicide in specific nations. For instnace, we decided to compare The Netherlands and Ukraine- Netherlands which is ranked #5 in the World Happiness Report while Ukraine is ranked #133. 
+
 
 ```{r extreem}
 extreem <- suicides %>%
@@ -100,6 +101,8 @@ ggplot(data = extreem, mapping=aes(x = year , y = suicides_per_100k_pop, color =
   labs(title = "Netherlands & Ukraine Suicides by Year",
        x = "Year", y = "Number of Suicides/100K Population")
 ```
+
+As demonstrated in the visualization, there is a significant difference in the suicide rates per 100k people between people in The Netherlands and Ukraine. Although correlation does not indicate causation, it is curious that there seems to be a relationship between happiness/saddness and suicide rates in a nation.
 
 ### Suicides and Economic Situation over all Time
 
