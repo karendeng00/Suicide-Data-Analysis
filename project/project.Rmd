@@ -10,18 +10,15 @@ runtime: shiny
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Your project goes here! Before you submit, make sure your chunks are turned off with `echo = FALSE`. 
-
-You can add sections as you see fit. Make sure you have a section called Introduction at the beginning and a section called Conclusion at the end. The rest is up to you!
-
 ### Introduction
+
+### Load Data and Packages & Organize Data
 
 ```{r load-data, message=FALSE}
 library(tidyverse)
 library(broom)
 suicides <- read_csv("/cloud/project/data/master.csv")
 ```
-
 
 ```{r suicides}
 suicides <- suicides %>%
@@ -53,7 +50,6 @@ suicides <- suicides %>%
 topcountries <- suicides %>%
   group_by(country) %>%
   summarise(n = mean(suicides_per_100k_pop)) %>%
-  filter(n!=0) %>%
   arrange(desc(n))
 
 ggplot(data = topcountries, mapping = aes(x = reorder(country,n), y = n)) +
@@ -67,8 +63,21 @@ ggplot(data = topcountries, mapping = aes(x = reorder(country,n), y = n)) +
 
 ```{r highest-rate-by-country}
 topcountries %>%
-  slice(1:10)
+ slice(1:10)
+
+topcountries %>%
+  filter(country == "United States")
+
+topcountries %>%
+  summarise(min = min(n), max = max(n),
+            mean = mean(n), med = median(n),
+            sd = sd(n), 
+            q1 = quantile(n, probs = 0.25),
+            q3 = quantile(n, probs = 0.75),
+            iqr = (q3 - q1))
 ```
+
+Netherlands which is ranked #5 in the World Happiness Report while Ukraine is ranked #133.
 
 ```{r extreem}
 extreem <- suicides %>%
@@ -76,10 +85,10 @@ extreem <- suicides %>%
 ```
 
 
-```{r suicide-happiness}
+```{r suicide-happiness, message=FALSE}
 ggplot(data = extreem, mapping=aes(x = year , y = suicides_per_100k_pop, color = country)) + 
   geom_smooth()  +  
-  labs(title = "Number of Suicides/100K Population for Each Year", 
+  labs(title = "Netherlands & Ukraine Suicides by Year",
        x = "Year", y = "Number of Suicides/100K Population")
 ```
 
@@ -362,3 +371,5 @@ shinyApp(ui, server)
 
 ### Citations
 https://bpr.berkeley.edu/2017/10/31/the-scourge-of-south-korea-stress-and-suicide-in-korean-society/
+https://s3.amazonaws.com/happiness-report/2019/WHR19.pdf
+
