@@ -15,21 +15,22 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Introduction
 
-This dataset provides statistics for suicides worldwide between the years of 1985 and 2016. Each occurrence provided in the dataset represents the country, year, sex, age (in groups), number of suicides, population, suicide rate for 100 thousand people, country-year, hdi (human development), gdp for the year (in USD), the gdp per capita (in USD), and the generation of a single suicide.
+This dataset provides statistics for suicides worldwide between the years of 1985 and 2016. Each occurrence provided in the dataset represents the country, year, sex, age (in categories), total number of suicides, population, suicide rate per 100 thousand people in the population, country-year, HDI (Human Development Index), GDP for the year (in USD), GDP per capita (in USD), and generation.
 
 The research question guiding this project is: 
 
 Do location, year, sex, and economic situation contribute to suicide rates?
 
-This research is important and relevant becuase understanding the relationship between location, year (time period), gender, and economic situation and mental health is important. Understand predictors of suicide can indicate where preventative measures can aid in mental health awareness and education as well as constructive prevention. 
+This research is important and relevant becuase understanding the relationship between location, year (time period), gender, and economic situation and mental health is important. Understanding predictors of suicide can indicate where preventative measures can best be taken to aid in mental health awareness and education as well as constructive prevention. 
 
 ### Load Data and Packages & Organize Data
 
-To begin, we loaded the suicide data as well as the broom and tidyverse packages we will use throughout our analysis. We then renamed our variables so they would be easier to work with, such as removing the dollar sign from their name. In addition, we filtered out the 2016 data because it was not collected throughout the entire year, the collection was cut off and the volume of data does not match other years. Lastly, we releveled our generation and age variables so when we plot the categorical data they are in logical order.
+To begin, we loaded the suicide data as well as the broom, tidyverse, and ggplot2 packages we will use throughout our analysis. We then renamed our variables so they would be easier to work with, such as removing the dollar sign from their name. In addition, we filtered out the 2016 data because it was not collected throughout the entire year, the collection was cut off and the volume of data does not match other years. Lastly, we releveled our generation and age variables so that our plots of those categorical variables appear in logical orders. 
 
 ```{r load-data, message=FALSE}
 library(tidyverse)
 library(broom)
+library(ggplot2)
 suicides <- read_csv("/cloud/project/data/master.csv")
 ```
 
@@ -58,37 +59,41 @@ suicides <- suicides %>%
 
 ### Suicides and Location
 
-To begin, we wanted to investigate which countries have the highest rate of suicide amongst their population in an average year (1985-2015). We created a bar graph that includes all of the countries in the data with their respective number of suicides per 100k population.
+To begin, we wanted to investigate which countries have the highest rate of suicide amongst their population on average over all the years (1985-2015). We created a bar graph that includes all of the countries in the data with their average respective number of suicides per 100k population.
 
-```{r country-plot, fig.height=12, fig.width=8}
-topcountries <- suicides %>%
+```{r country-plot-1, fig.height=12, fig.width=8}
+suicides_number_grouped <- aggregate(suicides_no ~ country_year, data = suicides, FUN=sum)
+suicides_population_grouped <- aggregate(population ~ country_year, data = suicides, FUN=sum)
+suicide_by_countries <- merge(suicides_number_grouped, suicides_population_grouped, by.x = "country_year", by.y = "country_year") %>%
+  mutate(suicides_proportion = ((suicides_no/population)*100000))
+suicide_by_countries_x <- merge(suicide_by_countries, suicides, by.x = "country_year", by.y = "country_year")
+topcountries_x <- suicide_by_countries_x %>%
   group_by(country) %>%
-  summarise(n = mean(suicides_per_100k_pop)) %>%
+  summarise(n = mean(suicides_proportion)) %>%
   arrange(desc(n))
-
-ggplot(data = topcountries, mapping = aes(x = reorder(country,n), y = n)) +
+ggplot(data = topcountries_x, mapping = aes(x = reorder(country,n), y = n)) +
   geom_bar(aes(y = n), stat = "Identity", fill="blue") +
   coord_flip() +
-  labs(title = "Suicides per 100k people",
-       subtitle = "by country",
+  labs(title = "Average suicides per 100k people",
+       subtitle = "by country from 1985 to 2015",
        x = "Country",
        y = "Count")
 ```
 
-Because looking at the bar graph is overwhelming with so much data, we printed the 10 countries with the highest suicide rates averaged over the years and their respective rates. The country with the highest suicide rates are as follows: Lithuania, Sri Lanka, Russian Federation, Hungary, Belarus, Kazakhstan, Latvia, Slovenia, Estonia, Ukraine. Their respective rates are 40.6, 35.3, 34.9, 33.0, 31.1, 30.4, 29.3, 27.8, 27.3 and lastly 26.6 suicides per 100k people. Because the United States is not within the top ten, we also printed its suicide rate, 13.819 suicides per 100k people. This was included because many viewers of this analysis have a particular interest in the United States as they are from this location.
+Because looking at the bar graph is overwhelming with so much data, we printed the 10 countries with the highest suicide rates averaged over the years and their respective rates. The country with the highest suicide rates are as follows: Lithuania, Russian Federation, Sri Lanka, Belarus, Hungary, Latvia, Kazakhstan, Slovenia, Estonia, Ukraine. Their respective rates are 41.1, 32.7, 30.8, 30.2, 30.0, 28.0, 27.0, 26.4, 25.7 and lastly 24.7 suicides per 100k people. It is notable that many of the countries in the top 10 are located in Eastern Europe and that Lithuania, the Russian Federation, Belarus, Kazakhstan, Latvia, Estonia, and Ukraine were all formerly part of the Soviet Union. Because the United States is not within the top ten, we also printed its suicide rate, 12.8 suicides per 100k people. This was included because many viewers of this analysis have a particular interest in the United States as they are from this location.
 
 ```{r top10-and-US}
-topcountries %>%
+topcountries_x %>%
  slice(1:10)
 
-topcountries %>%
+topcountries_x %>%
   filter(country == "United States")
 ```
 
-In addition to finding the 10 countries with the highest rates, we also looked at the summary statistics. On average, there are 11.969 suicides per 100k people in each country in a given year. There is a range of rates from 0 to 40.584 and a standard deviation of 9.373. This data is useful for comparing countries to the average. For example, the United States does not fall in countries with the highest 10 rates; however, the United States does have a suicide rate slightly above average.
+In addition to finding the 10 countries with the highest rates, we also looked at the summary statistics. On average, there are 10.922 suicides per 100k people in each country in a given year. There is a range of rates from 0 to 41.075 and a standard deviation of 8.729. This data is useful for comparing countries to the average. For example, the United States does not fall in countries with the highest 10 rates; however, the United States does have a suicide rate slightly above average.
 
 ```{r highest-rate-by-country}
-topcountries %>%
+topcountries_x %>%
   summarise(min = min(n), max = max(n),
             mean = mean(n), med = median(n),
             sd = sd(n), 
@@ -97,22 +102,22 @@ topcountries %>%
             iqr = (q3 - q1))
 ```
 
-By sorting the data and differentiating the suicide rates of countries, we are able to look at and compare individual countries. For instance, lots of countries claim that they are the happiest nation. We can see if there is any comparison between happiness and rates of suicide in specific nations. For instance, we decided to compare The Netherlands and Ukraine. The Netherlands is ranked #5 in the World Happiness Report while Ukraine is ranked #133. 
+By sorting the data and differentiating the suicide rates of countries, we are able to look at and compare individual countries. For instance, lots of countries claim that they are the happiest nation. We can see if there is any comparison between happiness and rates of suicide in specific nations. For instance, we decided to compare the Netherlands and Ukraine. The Netherlands is ranked #5 in the World Happiness Report while Ukraine is ranked #133. Unfortunately there is no data for Ukraine until 1987 which is why the line for Ukraine doesn't start until a little after the line for the Netherlands.
 
 ```{r extreem}
-extreem <- suicides %>%
+extreem <- suicide_by_countries_x %>%
   filter(country %in% c("Netherlands", "Ukraine"))
 ```
 
 
 ```{r suicide-happiness, message=FALSE}
-ggplot(data = extreem, mapping=aes(x = year , y = suicides_per_100k_pop, color = country)) + 
+ggplot(data = extreem, mapping=aes(x = year , y = suicides_proportion, color = country)) + 
   geom_smooth()  +  
   labs(title = "Netherlands & Ukraine Suicides by Year",
        x = "Year", y = "Number of Suicides/100K Population")
 ```
 
-As demonstrated in the visualization, there is a significant difference in the suicide rates per 100k people between people in The Netherlands and Ukraine. Although correlation does not indicate causation, it is interesting to note that there does seem to be a relationship between happiness and suicide rates in a nation.
+As demonstrated in the visualization, there is a significant difference in the suicide rates per 100k people between people in the Netherlands and Ukraine. Although correlation does not indicate causation, it is interesting to note that there does seem to be a relationship between happiness and suicide rates in a nation.
 
 ### Suicides and Economic Situation over all Time
 
