@@ -156,6 +156,7 @@ The r-squared value is 1.534907e-05. This means that the GDP per capita in US$ e
 ### Suicides and Economic Situation in 2015
 
 Because the previous graph showed so much variability in how GDP per capita affected the proportion of suicides, we were curious to see if the relationship would prove to be clearer by focusing on a single time period. We also thought that GDP per capita might be an imperfect statistic in tracking relative economic affluence over a large period of time. For this reason we made the same visualization and linear regression model, but this time only using data from 2015. This model showed a slightly larger positive correlation between increasing GDP per capita ($) and number of suicides per 100k of the population, but the r-squared value was still not high enough to show any significant correlation. 
+
 ```{r create-dataframe-grouping-data-countryyear-2015}
 suicides_current <- suicides %>%
   filter(Year == "2015")
