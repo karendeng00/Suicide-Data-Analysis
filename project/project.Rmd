@@ -306,42 +306,40 @@ us_suicides %>%
 Next, we observed the realationship between suicide and sex. In the visualization and data collected from the dataset, the mean number of suicides/100k population for females was 5.4 suicides while for males, was 20.2 suicides. Males had 3.7 times the number of suicides as females.
 
 ```{r sex-suicide}
-suicides_sex <- suicides %>%
-  group_by(Sex) %>%
-  summarize(n = mean(suicides_per_100k_pop))
+suicides_sex_grouped <- aggregate(suicides_no ~ Sex, data = suicides, FUN=sum)
+suicides_sexpopulation_grouped <- aggregate(population ~ Sex, data = suicides, FUN=sum)
+suicide_by_sex <- merge(suicides_sex_grouped, suicides_sexpopulation_grouped, by.x = "Sex", by.y = "Sex") %>%
+  mutate(suicides_proportion = ((suicides_no/population)*100000))
 ```
 
 ```{r sex-suicides-visualization}
-ggplot(data = suicides_sex, mapping=aes(x = Sex, y =  n, fill = Sex)) + 
+ggplot(data = suicide_by_sex, mapping=aes(x = Sex, y =  suicides_proportion, fill = Sex)) + 
   geom_col() +
   labs(title = "Mean Number of Suicides/100K Population by Sex", 
        x = "Sex", y = "Mean Number of Suicides per 100k Population")
 ```
 
 ```{r year-sex-suicides}
-year_sex <- suicides %>%
-  group_by(Year, Sex) %>% 
-  summarize( n = mean(suicides_per_100k_pop))
+suicides_yearsex_grouped <- aggregate(suicides_no ~ Sex+Year, data = suicides, FUN=sum)
+suicides_yearsexpopulation_grouped <- aggregate(population ~ Sex+Year, data = suicides, FUN=sum)
+suicide_by_yearsex <- full_join(suicides_yearsex_grouped, suicides_yearsexpopulation_grouped) %>%
+  mutate(suicides_proportion = ((suicides_no/population)*100000))
 ```
 
 ```{r line}
-ggplot(year_sex, aes(x = Year, y = n, color = Sex)) +
+ggplot(suicide_by_yearsex, aes(x = Year, y = suicides_proportion, color = Sex)) +
     geom_line() +
     labs(title = "Changes in Male and Female Suicide Rates Over Time",
          x = "Year", y = "Mean Number of Suicides per 100k People")
 ```
 
-Given the visualizations above, there is an enormous difference between the suicide rates of males and females. Both seemed to peack in 1995, and then decreased, females more steadily than males. This difference was attributed to the fact that men were more likely to die from suicides, even though women were found to attempt suicides 3-4 times more often than men. Men used more lethal means for suicide because men were more comfortable with guns, while women took pills and were less likely to die from their suicide attempts. There is also evidence that shows that men are not as inclined to seek help for mental disorders because of their masculine ideals, and their mental health declines and feelings build up with no escape, unlike women who are more likely to seek help before escalating to suicide.  
+Given the visualizations above, there is an enormous difference between the suicide rates of males and females. Both seemed to peak in 1995, and then decreased, females more steadily than males. The overall disparity between the two sexes was attributed to the fact that men were more likely to die from suicides, even though women were found to attempt suicides 3-4 times more often than men. Men used more lethal means for suicide because men were more comfortable with guns, while women took pills and were less likely to die from their suicide attempts. There is also evidence that shows that men are not as inclined to seek help for mental disorders because of their masculine ideals causing their mental health to decline and feelings to build up with no escape. 
 
 ### Linear Modeling 
 
 To figure out which variables influence suicides the most, we will be doing a linear regression. 
 
 ```{r full-model}
-#full_model <- lm(suicides_per_100k_pop ~ Age + Year + Country + Sex +
-                  # Generation + Population + gdp_for_year +
-                  # gdp_per_capita + HDI_for_year + country_year, data = suicides)
-
 full_model <- lm(suicides_per_100k_pop ~ Age + Year + Country + Sex +
                    Generation + Population + gdp_for_year +
                    gdp_per_capita, data = suicides)
@@ -443,7 +441,7 @@ shinyApp(ui, server)
 
 ### Conclusion and Discussion
 
-Analyzing this dataset has shown a many new links between different variables and suicide rates. To begin, we looked at countries with the highest suicide rates per 100k population. It was important to look by 100k population rather than just the number of suicides to account for population differences between countries. We found that happier countries according to the world happiness rankings, had a lower suicide rate. It would be really interesting to investigate more of these unhappy countries' suicide rates; however, many of these countries are in Africa and the data for much of this continent is missing. It is also interesting to note that the US ranked #36 out of the 100 countries analyzed with a rate of 13.8 suicides per 100k population.
+Analyzing this dataset has shown many new links between different variables and suicide rates. To begin, we looked at countries with the highest suicide rates per 100k population. It was important to look by 100k population rather than just the number of suicides to account for population differences between countries. We found that countries in eastern europe have some of the highest rates of suicide, and that happier countries according to the world happiness rankings, had a lower suicide rate. It would be really interesting to investigate more of these unhappy countries' suicide rates; however, many of these countries are in Africa and the data for much of this continent is missing. We could also have It is also interesting to note that the US ranked #36 out of the 100 countries analyzed with a rate of 13.8 suicides per 100k population.
 
 Our anaylsis of the correlation between suicide rate and GDP per capita ($) showed that there was little to no correlation between the two variables. Even after filtering the data for just 2015, the linear regression fitted to the model showed that there was still no good correlation between the two variables. This indicates that a countries GDP per capita is not indicative of whether or not they have a high or low suicide rate.
 
@@ -458,11 +456,11 @@ Next, we looked at average number of suicides/100k population over time for each
 
 We also examined average number of suicides/100k population in the United States and observed higher average and peak suicides in the United States compared to world suicide rates. The United States also has opposite direction in increases and decreases in suicide rates compared to world rates. We observed an increase in suicide rates in the United States that began around 2008 and grew steadily which may have been caused by the financial crisis that involved economic hardships in 2007 and a crash in 2008 which led to a sustained period of home foreclosures, debt, and unemployment. Research indicates that suicides may have been tied to these factors during the economic crisis.
 
-Additionally, we looked at the relationship between suicides and sex. Men were around 3.7 times more likely to commit suicide than females. This may be contributed to how males were more likely to die from suicide attempts because they used lethal means to commit suicide (like using guns), whereas women were less likely to die from attempts because they were more likely to use pills. Men were also found to hide their feelings because of masculinity ideals, using suicide as an escape. 
+Additionally, we looked at the relationship between suicides and sex. Men were around 3.5 times more likely to commit suicide than females. This may be contributed to how males were more likely to die from suicide attempts because they used lethal means to commit suicide (like using guns), whereas women were less likely to die from attempts because they were more likely to use pills. Men were also found to hide their feelings because of masculinity ideals, using suicide as an escape. 
 
-When coming to these conclusions and interpreting these data, one must keep in mind the data set. For instance, there is not detailed collection information such as method as it is a compilation of other data. Furthermore, it is known that suicides sometimes go falsely reported or unreported at all- for instance, suicides have been occasionally reported as farming or hunting accidents- so we will be conscious of this as we conduct the investigation. It has also come to our attention that not every nation is represented, which will limit our ability to compare truly worldwide, but we will be able to compare nation to nation and region to region. We also had to take out the year 2016 becuase the data did not seem to be complete. When analyzing the data from a dataset, one must take into account for missing and incorrect data. 
+When coming to these conclusions and interpreting these data, one must keep in mind the data set. For instance, there is no detailed collection information about the method as it is a compilation of other data. Furthermore, it is known that suicides sometimes go falsely reported or unreported at all- for instance, suicides have been occasionally reported as farming or hunting accidents- so the results of this data analysis must be interpreted with caution. It has also come to our attention that not every nation is represented, which will limit our ability to truly compare each nation. We also had to take out the year 2016 becuase the data did not seem to be complete. When analyzing the data from a dataset, one must take into account for missing and incorrect data. 
 
-While there are not many things we would approach differently, there are many further directions this analysis and go. One major thing we would do differently would be parse the data differently so that all variables can be used when fitting the linear model without crashing R Studio or having to delete variables. There are so many observations in this dataset particularly because each generation, sex, year and country are recorded separately so reorganizing the data could be very helpful. An idea for another direction the project can lead would be to organize the contries by region, for example "Europe" and compare regions. Furthermore, it would be really interesting to collect data for the missing countries, particularly in Africa. Many of these missing countries in Africa are known to be the least happy countries according to the World Happiness Report and this would be interesting data to examine. Lastly, the shiny app could have many more features added, such as looking at multiple countries at a time or multiple variables at a time.  
+While there are not many things we would approach differently, there are many further directions this analysis could go. One major thing we would do differently would be to parse the data differently so that all variables can be used when fitting the linear model without crashing R Studio or having to delete variables. There are so many observations in this dataset particularly because each generation, sex, year and country are recorded separately so reorganizing the data could be very helpful. An idea for another direction the project can lead would be to organize the contries by region, for example "Weatern Europe", "Eastern Europe", "Asia", etc. and compare regions. Furthermore, it would be really interesting to collect data for the missing countries, particularly in Africa. Many of these missing countries in Africa are known to be the least happy countries according to the World Happiness Report and this would be interesting data to examine. Lastly, the shiny app could have many more features added, such as looking at multiple countries at a time or multiple variables at a time.  
  
 
 ### Citations
