@@ -322,7 +322,7 @@ ggplot(data = suicide_by_sex, mapping=aes(x = Sex, y =  suicides_proportion, fil
        x = "Sex", y = "Mean Number of Suicides per 100k Population")
 ```
 
-```{r year-sex-suicides}
+```{r year-sex-suicides, message = FALSE}
 suicides_yearsex_grouped <- aggregate(suicides_no ~ Sex+Year, data = suicides, FUN=sum)
 suicides_yearsexpopulation_grouped <- aggregate(population ~ Sex+Year, data = suicides, FUN=sum)
 suicide_by_yearsex <- full_join(suicides_yearsex_grouped, suicides_yearsexpopulation_grouped) %>%
