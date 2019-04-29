@@ -248,56 +248,59 @@ ggplot(data = suicides_grouped_sex, mapping = aes(x = Year, y = suicides_per_100
 
 ### Suicides and Year
 
-We also observed the relationship between the average number of suicides/100k population for each year over time. The highest average number of suicides was 13.8 suicides/100k population in 1995. Suicides have been declining since then. On average, there was an average of 11.6 suicides/100k population across all the years. 
+We also observed the relationship between the average number of suicides/100k population for each year over time. The highest average number of suicides was 15.3 suicides/100k population in 1995. Suicides have been declining since then. On average, there was an average of 13.1 suicides/100k population across all the years. 
 
 ```{r year-suicides}
-year_suicides<- suicide_by_countries_x %>%
-  group_by(Year) %>% 
-  summarize(n = mean(suicides_proportion))
+suicides_year_grouped <- aggregate(suicides_no ~ Year, data = suicides, FUN=sum)
+suicides_yearpopulation_grouped <- aggregate(population ~ Year, data = suicides, FUN=sum)
+suicide_by_year <- merge(suicides_year_grouped, suicides_yearpopulation_grouped, by.x = "Year", by.y = "Year") %>%
+  mutate(suicides_proportion = ((suicides_no/population)*100000))
 ```
 
 ```{r year-suicides-visualization}
-ggplot(data = year_suicides, mapping=aes(x = Year, y =  n)) + 
+ggplot(data = suicide_by_year, mapping=aes(x = Year, y =  suicides_proportion)) + 
   geom_line(color = "blue")  + geom_point(size = 1, color = "black") +  
   labs(title = "Mean Number of Suicides/100K Population for Each Year", 
        x = "Year", y = "Mean Number of Suicides/100K Population")
 ```
 
 ```{r summary-year-suicides}
-year_suicides %>%
-  summarise(min = min(n), max = max(n),
-            mean = mean(n), med = median(n),
-            sd = sd(n), 
-            q1 = quantile(n, probs = 0.25),
-            q3 = quantile(n, probs = 0.75),
+suicide_by_year %>%
+  summarise(min = min(suicides_proportion), max = max(suicides_proportion),
+            mean = mean(suicides_proportion), med = median(suicides_proportion),
+            sd = sd(suicides_proportion), 
+            q1 = quantile(suicides_proportion, probs = 0.25),
+            q3 = quantile(suicides_proportion, probs = 0.75),
             iqr = (q3 - q1))
 ```
 
 ### Suicides and Year in the United States
 
 ```{r us-suicides}
-us_suicides <- suicide_by_countries_x %>%
-  filter(Country == "United States") %>%
-  group_by(Year) %>% 
-  summarize(n = mean(suicides_proportion))
+us_suicides <- suicides %>%
+  filter(Country == "United States")
+suicides_usyear_grouped <- aggregate(suicides_no ~ Year, data = us_suicides, FUN=sum)
+suicides_usyearpopulation_grouped <- aggregate(population ~ Year, data = us_suicides, FUN=sum)
+suicide_by_yearus <- merge(suicides_usyear_grouped, suicides_usyearpopulation_grouped, by.x = "Year", by.y = "Year") %>%
+  mutate(suicides_proportion = ((suicides_no/population)*100000))
 ```
 
 Next, we looked specifically at the average number of suicides/100k population for the United States. Across all the years, the US has an average number of suicides/100k population of 12.8. The highest average number of suicides/100K population occuring in the United States was 14.7 suicides in 2015. Since 2000 and especially since 2007, the graph shows that suicides have been increasing. This increase in suicides can be linked to the financial crisis in 2007. Increased suicides were caused by job loss, home foreclosures, and debt from the unanticipated national housing downturn. Unemployment also caused higher divorce rates and abuse rates in homes in the US.
 
 ```{r us-suicides-visualization}
-ggplot(data = us_suicides, mapping=aes(x = Year, y =  n)) + 
+ggplot(data = suicide_by_yearus, mapping=aes(x = Year, y =  suicides_proportion)) + 
   geom_line(color = "red")  +  geom_point(size = 1, color = "black") +  
   labs(title = "Mean Number of Suicides/100K Population for Each Year in the United States", 
        x = "Year", y = "Mean Number of Suicides/100K Population")
 ```
 
 ```{r summary-us-suicides}
-us_suicides %>%
-  summarise(min = min(n), max = max(n),
-            mean = mean(n), med = median(n),
-            sd = sd(n), 
-            q1 = quantile(n, probs = 0.25),
-            q3 = quantile(n, probs = 0.75),
+suicide_by_yearus %>%
+  summarise(min = min(suicides_proportion), max = max(suicides_proportion),
+            mean = mean(suicides_proportion), med = median(suicides_proportion),
+            sd = sd(suicides_proportion), 
+            q1 = quantile(suicides_proportion, probs = 0.25),
+            q3 = quantile(suicides_proportion, probs = 0.75),
             iqr = (q3 - q1))
 ```
 
