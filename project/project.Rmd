@@ -123,17 +123,8 @@ As demonstrated in the visualization, there is a significant difference in the s
 
 We wanted to see if there was a correlation between proportion of suicides and the economic situation in each country. The measure of the economic situation in this data set is GDP per capita measured in US$. The dataset also includes a variable for GDP the whole year, but we thought GDP per capita would probably be a better measure of a country's economic affluence because it takes into account the relative size of the population and doesn't unfairly favor larger countries to smaller ones. We thus created a linear model that visualized the number of suicides per 100k of the population versus the GDP per capita. The graph used data from all countries in the dataset and from the years 1985-2015. There are a lot of data points on the graph and they are all quite scattered. When we fit a linear regression to the graph it gave the equation given below the graph and had an r-squared value also shown below the graph. The very low r-squared value and the very weak positive relationship the regression model gave, indicate that there is little, if any, relationship between GDP per capita and the number of suicides per 100k of the population.  
 
-```{r create-dataframe-grouping-data-countryyear}
-#aggregated all the suicides/100k pop data per country-year
-suicides_grouped <- aggregate(suicides_per_100k_pop ~ country_year, data = suicides, FUN=sum)
-
-#merged data set created with old one to have access to gdp data
-suicide_economics <- merge(suicides, suicides_grouped, by.x = "country_year", by.y = "country_year") %>%
-  select(country_year, suicides_per_100k_pop.y, gdp_per_capita)
-```
-
 ```{r vis-suicide-gdp-per-capita}
-ggplot(data = suicide_economics, mapping = aes(x = gdp_per_capita, y = suicides_per_100k_pop.y)) + 
+ggplot(data = suicide_by_countries_x, mapping = aes(x = gdp_per_capita, y = suicides_proportion)) + 
   geom_point(size = 0.1, color = "blue") +
   geom_smooth(method = "lm", se = FALSE,
               col = "orange") +
@@ -143,39 +134,32 @@ ggplot(data = suicide_economics, mapping = aes(x = gdp_per_capita, y = suicides_
 ```
 
 ```{r linear-model-suicide-economics}
-model_gdp_suicides <- lm(suicides_per_100k_pop.y ~ gdp_per_capita, data = suicide_economics)
+model_gdp_suicides <- lm(suicides_proportion ~ gdp_per_capita, data = suicide_by_countries_x)
 tidy(model_gdp_suicides)
 glance(model_gdp_suicides)$r.squared
 ```
 
-Equation for the linear model is: (Suicides per 100k of the population-hat) = (153) + (0.0000243*GDP per capita($)) 
+Equation for the linear model is: (Suicides per 100k of the population-hat) = (11.2) + (0.0000288*GDP per capita($)) 
 
-R-squared value is: 1.534907e-05
+R-squared value is: 0.003695165
 
-The intercept of this model is 153. This means that for a country with a $0 GDP per capita the number of suicides per 100k of the population would be expected to be, on average, 153.
+The intercept of this model is 11.2. This means that for a country with a $0 GDP per capita the number of suicides per 100k of the population would be expected to be, on average, 11.2.
 
-The slope of this model is 0.0000243. This means that for every $1 increase in GDP per capita, the number of suicides per 100k of the population is expected to increase, on average, by 0.0000243.
+The slope of this model is 0.0000288. This means that for every $1 increase in GDP per capita, the number of suicides per 100k of the population is expected to increase, on average, by 0.0000288.
 
-The r-squared value is 1.534907e-05. This means that the GDP per capita in US$ explains 0.00153% of variability in the number of suicides per 100k of the population.
+The r-squared value is 0.003695165. This means that the GDP per capita in US$ explains 0.3695165% of variability in the number of suicides per 100k of the population.
 
 ### Suicides and Economic Situation in 2015
 
-Because the previous graph showed so much variability in how GDP per capita affected the proportion of suicides, we were curious to see if the relationship would prove to be clearer by focusing on a single time period. We also thought that GDP per capita might be an imperfect statistic in tracking relative economic affluence over a large period of time. For this reason we made the same visualization and linear regression model, but this time only using data from 2015. This model showed a slightly larger positive correlation between increasing GDP per capita ($) and number of suicides per 100k of the population, but the r-squared value was still not high enough to show any significant correlation. 
+Because the previous graph showed so much variability in how GDP per capita affected the proportion of suicides, we were curious to see if the relationship would prove to be clearer by focusing on a single time period. We also thought that GDP per capita might be an imperfect statistic in tracking relative economic affluence over a large period of time. For this reason we made the same visualization and linear regression model, but this time only using data from 2015. This model showed a slightly larger positive correlation between increasing GDP per capita ($) and number of suicides per 100k of the population. The r-squared value was also substantially higher than in the previous graph, but it was still not high enough to show any significant correlation. 
 
 ```{r create-dataframe-grouping-data-countryyear-2015}
-suicides_current <- suicides %>%
+suicides_current <- suicide_by_countries_x %>%
   filter(Year == "2015")
-
-#aggregated all the suicides/100k pop data per country-year
-suicides_grouped_current <- aggregate(suicides_per_100k_pop ~ country_year, data = suicides_current, FUN=sum)
-
-#merged data set created with old one to have access to gdp data
-suicide_economics_current <- merge(suicides, suicides_grouped_current, by.x = "country_year", by.y = "country_year") %>%
-  select(country_year, suicides_per_100k_pop.y, gdp_per_capita)
 ```
 
 ```{r vis-suicide-gdp-per-capita-2015}
-ggplot(data = suicide_economics_current, mapping = aes(x = gdp_per_capita, y = suicides_per_100k_pop.y)) + 
+ggplot(data = suicides_current, mapping = aes(x = gdp_per_capita, y = suicides_proportion)) + 
   geom_point(size = 0.5, color = "blue") +
   geom_smooth(method = "lm", se = FALSE,
               col = "orange") +
@@ -186,19 +170,19 @@ ggplot(data = suicide_economics_current, mapping = aes(x = gdp_per_capita, y = s
 ```
 
 ```{r linear-model-gdp-2015}
-model_gdp_suicides_current <- lm(suicides_per_100k_pop.y ~ gdp_per_capita, data = suicide_economics_current)
+model_gdp_suicides_current <- lm(suicides_proportion ~ gdp_per_capita, data = suicides_current)
 tidy(model_gdp_suicides_current)
 glance(model_gdp_suicides_current)$r.squared
 ```
-Equation for the linear model is: (Suicides per 100k of the population-hat) = (127) + (2.168189e-04*GDP per capita($)) 
+Equation for the linear model is: (Suicides per 100k of the population-hat) = (9.91) + (0.000036*GDP per capita($)) 
 
-The R-squared value is: 0.003774998
+The R-squared value is: 0.01670432
 
-The intercept of this model is 127. This means that for a country in 2015 with a $0 GDP per capita the number of suicides per 100k of the population would be expected to be, on average, 127.
+The intercept of this model is 9.91. This means that for a country in 2015 with a $0 GDP per capita the number of suicides per 100k of the population would be expected to be, on average, 9.91.
 
-The slope of this model is 2.168189e-04. This means that for every $1 increase in a country's GDP per capita in 2015, the number of suicides per 100k of the population is expected to increase, on average, by 2.168189e-04.
+The slope of this model is 0.000036. This means that for every $1 increase in a country's GDP per capita in 2015, the number of suicides per 100k of the population is expected to increase, on average, by 0.000036.
 
-The r-squared value is 0.003774998. This means that the GDP per capita ($) explains 0.377% of variability in the number of suicides per 100k of the population in 2015.
+The r-squared value is 0.01670432. This means that the GDP per capita ($) explains 1.670432% of variability in the number of suicides per 100k of the population in 2015.
 
 ### Suicides and Generation
 
