@@ -248,12 +248,12 @@ ggplot(data = suicides_grouped_sex, mapping = aes(x = Year, y = suicides_per_100
 
 ### Suicides and Year
 
-We also observed the relationship between the average number of suicides/100k population for each year over time. The highest average number of suicides was 15.7 suicides/100k population in 1995. Suicides have been declining since then. On average, there was an average of 12.7 suicides/100k population across all the years. 
+We also observed the relationship between the average number of suicides/100k population for each year over time. The highest average number of suicides was 13.8 suicides/100k population in 1995. Suicides have been declining since then. On average, there was an average of 11.6 suicides/100k population across all the years. 
 
 ```{r year-suicides}
-year_suicides<- suicides %>%
+year_suicides<- suicide_by_countries_x %>%
   group_by(Year) %>% 
-  summarize(n = mean(suicides_per_100k_pop))
+  summarize(n = mean(suicides_proportion))
 ```
 
 ```{r year-suicides-visualization}
@@ -276,13 +276,13 @@ year_suicides %>%
 ### Suicides and Year in the United States
 
 ```{r us-suicides}
-us_suicides <- suicides %>%
+us_suicides <- suicide_by_countries_x %>%
   filter(Country == "United States") %>%
   group_by(Year) %>% 
-  summarize(n = mean(suicides_per_100k_pop))
+  summarize(n = mean(suicides_proportion))
 ```
 
-Next, we looked specifically at the average number of suicides/100k population for the United States. Across all the years, the US has an average number of suicides/100k population of 13.8. The highest average number of suicides/100K population occuring in the United States was 16 suicides in 1986 and 1987. Since 2006, the graph shows that suicides have been increasing. This increase in suicides can be linked to the financial crisis in 2007. Increased suicides were caused by job loss, home foreclosures, and debt from the unanticipated national housing downturn. Unemployment also caused higher divorce rates and abuse rates in homes in the US.
+Next, we looked specifically at the average number of suicides/100k population for the United States. Across all the years, the US has an average number of suicides/100k population of 12.8. The highest average number of suicides/100K population occuring in the United States was 14.7 suicides in 2015. Since 2000 and especially since 2007, the graph shows that suicides have been increasing. This increase in suicides can be linked to the financial crisis in 2007. Increased suicides were caused by job loss, home foreclosures, and debt from the unanticipated national housing downturn. Unemployment also caused higher divorce rates and abuse rates in homes in the US.
 
 ```{r us-suicides-visualization}
 ggplot(data = us_suicides, mapping=aes(x = Year, y =  n)) + 
