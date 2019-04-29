@@ -80,11 +80,11 @@ ggplot(data = topcountries_x, mapping = aes(x = reorder(country,n), y = n)) +
        y = "Count")
 ```
 
-Because looking at the bar graph is overwhelming with so much data, we printed the 10 countries with the highest suicide rates averaged over the years and their respective rates. The country with the highest suicide rates are as follows: Lithuania, Russian Federation, Sri Lanka, Belarus, Hungary, Latvia, Kazakhstan, Slovenia, Estonia, Ukraine. Their respective rates are 41.1, 32.7, 30.8, 30.2, 30.0, 28.0, 27.0, 26.4, 25.7 and lastly 24.7 suicides per 100k people. It is notable that many of the countries in the top 10 are located in Eastern Europe and that Lithuania, the Russian Federation, Belarus, Kazakhstan, Latvia, Estonia, and Ukraine were all formerly part of the Soviet Union. Because the United States is not within the top ten, we also printed its suicide rate, 12.8 suicides per 100k people. This was included because many viewers of this analysis have a particular interest in the United States as they are from this location.
+Because looking at the bar graph is overwhelming with so much data, we printed the 10 countries with the highest suicide rates averaged over the years and their respective rates. The country with the highest suicide rates are as follows: Lithuania, Russian Federation, Sri Lanka, Belarus, Hungary, Latvia, Kazakhstan, Slovenia, Estonia, Ukraine. Their respective rates are 41.1, 32.7, 30.8, 30.2, 30.0, 28.0, 27.0, 26.4, 25.7 and lastly 24.7 suicides per 100k people. It is notable that many of the countries in the top 10 are located in Eastern Europe and that Lithuania, the Russian Federation, Belarus, Kazakhstan, Latvia, Estonia, and Ukraine were all formerly part of the Soviet Union. Because the United States is not within the top ten, we also printed its suicide rate, 12.8 suicides per 100k people. The United States was ranked 37th on the total world ranking. This was included because many viewers of this analysis have a particular interest in the United States as they are from this location.
 
 ```{r top10-and-US}
 topcountries_x %>%
- slice(1:10)
+  slice(1:10)
 
 topcountries_x %>%
   filter(country == "United States")
@@ -121,7 +121,7 @@ As demonstrated in the visualization, there is a significant difference in the s
 
 ### Suicides and Economic Situation over all Time
 
-We wanted to see if there was a correlation between proportion of suicides and the economic situation in each country. The measure of the economic situation in this data set is GDP per capita measured in US$. The dataset also includes a variable for GDP the whole year, but we thought GDP per capita would probably be a better measure of a country's economic affluence because it takes into account the relative size of the population and doesn't unfairly favor larger countries to smaller ones. We thus created a linear model that visualized the number of suicides per 100k of the population versus the GDP per capita. The graph used data from all countries in the dataset and from the years 1985-2015. There are a lot of data points on the graph and they are all quite scattered. When we fit a linear regression to the graph it gave the equation given below the graph and had an r-squared value also shown below the graph. The very low r-squared value and the very weak positive relationship the regression model gave, indicate that there is little, if any, relationship between GDP per capita and the number of suicides per 100k of the population.  
+We wanted to see if there was a correlation between proportion of suicides and the economic situation in each country. The measure of the economic situation in this data set is GDP per capita measured in US$. The dataset also includes a variable for GDP over the whole year, but we thought GDP per capita would probably be a better measure of a country's economic affluence because it takes into account the relative size of the population and doesn't unfairly favor larger countries to smaller ones. We thus created a linear model that visualized the number of suicides per 100k of the population versus the GDP per capita. The graph used data from all countries in the dataset and from the years 1985-2015. There are a lot of data points on the graph and they are all quite scattered. When we fit a linear regression to the graph it gave the equation given below the graph and had an r-squared value also shown below the graph. The very low r-squared value and the very weak positive relationship the regression model gave, indicate that there is little, if any, relationship between GDP per capita and the number of suicides per 100k of the population.  
 
 ```{r vis-suicide-gdp-per-capita}
 ggplot(data = suicide_by_countries_x, mapping = aes(x = gdp_per_capita, y = suicides_proportion)) + 
@@ -151,7 +151,7 @@ The r-squared value is 0.003695165. This means that the GDP per capita in US$ ex
 
 ### Suicides and Economic Situation in 2015
 
-Because the previous graph showed so much variability in how GDP per capita affected the proportion of suicides, we were curious to see if the relationship would prove to be clearer by focusing on a single time period. We also thought that GDP per capita might be an imperfect statistic in tracking relative economic affluence over a large period of time. For this reason we made the same visualization and linear regression model, but this time only using data from 2015. This model showed a slightly larger positive correlation between increasing GDP per capita ($) and number of suicides per 100k of the population. The r-squared value was also substantially higher than in the previous graph, but it was still not high enough to show any significant correlation. 
+Because the previous graph showed so much variability in how GDP per capita affected the proportion of suicides, we were curious to see if the relationship would prove to be clearer by focusing on a single time period. We also thought that GDP per capita might be an imperfect statistic in tracking relative economic affluence over a large period of time. For this reason we made the same visualization and linear regression model, but this time only using data from 2015. This model showed a slightly larger positive correlation between increasing GDP per capita ($) and number of suicides per 100k of the population. The r-squared value was also substantially higher than in the previous graph, indicating that there could be a stronger relationship between these two variables than was previously thought. 
 
 ```{r create-dataframe-grouping-data-countryyear-2015}
 suicides_current <- suicide_by_countries_x %>%
@@ -227,7 +227,7 @@ suicides %>%
 
 ### Suicides Rates Among Young People in the US over Time
 
-Though 5-14 year olds clearly have the lowest suicide rates of any age group, we were curious to see if their suicide rates had increased in the US over time. The reason we were curious about this is because we have seen a lot of things in the news recently about increased mental health issues in the US among school-aged children. We therefore wanted to see if that trend was reflected in increased suicide rates among very young people. The graph below shows that unfortunately, suicide do seem to have spiked recently among 5-14 year olds in the US. They reached a peak in 2014 when there were 2.04 suicides per 100k people in the population. Suicide rates climbed to that peak from a low of 0.9 per 100k people in 2007. In 2015 suicide rates dropped slightly from 2014, and we are hopeful that that downward trend will continue.
+Though 5-14 year olds clearly have the lowest suicide rates of any age group, we were curious to see if their suicide rates had increased in the US over time. The reason we were curious about this is because we have seen a lot of things in the news recently about increased mental health issues in the US among school-aged children. We therefore wanted to see if that trend was reflected in increased suicide rates among very young people in our data. The graph below shows that unfortunately, suicides do seem to have spiked recently among 5-14 year olds in the US. They reached a peak in 2014 when there were 2.04 suicides per 100k people in the population. Suicide rates climbed to that peak from a low of 0.9 per 100k people in 2007. In 2015 suicide rates dropped slightly from 2014, and we are hopeful that that downward trend will continue.
 
 ```{r young-data-us}
 suicides_us <- suicides %>%
@@ -285,7 +285,7 @@ suicide_by_yearus <- merge(suicides_usyear_grouped, suicides_usyearpopulation_gr
   mutate(suicides_proportion = ((suicides_no/population)*100000))
 ```
 
-Next, we looked specifically at the average number of suicides/100k population for the United States. Across all the years, the US has an average number of suicides/100k population of 12.8. The highest average number of suicides/100K population occuring in the United States was 14.7 suicides in 2015. Since 2000 and especially since 2007, the graph shows that suicides have been increasing. This increase in suicides can be linked to the financial crisis in 2007. Increased suicides were caused by job loss, home foreclosures, and debt from the unanticipated national housing downturn. Unemployment also caused higher divorce rates and abuse rates in homes in the US.
+Next, we looked specifically at the average number of suicides/100k population for the United States. Across all the years, the US has an average number of suicides/100k population of 12.8. The highest average number of suicides/100K population occuring in the United States was 14.7 suicides in 2015. Since 2000 and especially since 2007, the graph shows that suicides have been increasing. The latter increase in suicides can be linked to the financial crisis in 2007. Increased suicides were caused by job loss, home foreclosures, and debt from the unanticipated national housing downturn. Unemployment also caused higher divorce rates and abuse rates in homes in the US.
 
 ```{r us-suicides-visualization}
 ggplot(data = suicide_by_yearus, mapping=aes(x = Year, y =  suicides_proportion)) + 
@@ -306,7 +306,7 @@ suicide_by_yearus %>%
 
 ### Suicides and Sex
 
-Next, we observed the realationship between suicide and sex. In the visualization and data collected from the dataset, the mean number of suicides/100k population for females was 5.4 suicides while for males, was 20.2 suicides. Males had 3.7 times the number of suicides as females.
+Next, we observed the realationship between suicide and sex. In the visualization and data collected from the dataset, the mean number of suicides/100k population for females was 5.9 suicides while for males, was 20.7 suicides. Males had 3.5 times the number of suicides as females.
 
 ```{r sex-suicide}
 suicides_sex_grouped <- aggregate(suicides_no ~ Sex, data = suicides, FUN=sum)
@@ -329,7 +329,7 @@ suicide_by_yearsex <- full_join(suicides_yearsex_grouped, suicides_yearsexpopula
   mutate(suicides_proportion = ((suicides_no/population)*100000))
 ```
 
-```{r line}
+```{r line-sex-overtime}
 ggplot(suicide_by_yearsex, aes(x = Year, y = suicides_proportion, color = Sex)) +
     geom_line() +
     labs(title = "Changes in Male and Female Suicide Rates Over Time",
@@ -340,7 +340,7 @@ Given the visualizations above, there is an enormous difference between the suic
 
 ### Linear Modeling 
 
-To figure out which variables influence suicides the most, we will be doing a linear regression. 
+To figure out which variables influence suicides the most, we performed model selection. 
 
 ```{r full-model}
 full_model <- lm(suicides_per_100k_pop ~ Age + Year + Country + Sex +
@@ -354,9 +354,15 @@ When we ran the full model selection, RStudio was becomming overloaded and crash
 selected_model <- step(full_model, direction = "backward")
 ```
 
-The model selection demonstrates that the one variable that does not provide statistically significant influence is the gdp_for_year. This indicates that all of the variables we have been investigating, Country, Year, Sex, Population, Generation and GDP/Capita, play a role in the changes in suicide rates. Knowing this can inform those working in suicide prevention and mental health awareness will know which areas of a person's life to target and work on. 
+The model selection demonstrates that the one variable that does not provide statistically significant influence is the gdp_for_year. This indicates that all of the variables we have been investigating, Country, Year, Sex, Population, Generation and GDP per capita, play a role in the changes in suicide rates. Knowing this can inform those working in suicide prevention and mental health awareness to know which areas of a person's life to target and work on. 
 
-We decided not to produce a linear model becuase the selection created coefficients for each nation, meaning that we would have well over 100 variables and coefficients in our linear model. 
+We decided not to write out the linear model becuase the selection created coefficients for each nation, meaning that we would have well over 100 variables and coefficients in our linear model as you can see in the model output below. 
+
+```{r selected-model-tidy}
+tidy(selected_model) %>%
+  select(term, estimate)
+```
+
 
 ### Shiny App
 
@@ -444,26 +450,26 @@ shinyApp(ui, server)
 
 ### Conclusion and Discussion
 
-Analyzing this dataset has shown many new links between different variables and suicide rates. To begin, we looked at countries with the highest suicide rates per 100k population. It was important to look by 100k population rather than just the number of suicides to account for population differences between countries. We found that countries in eastern europe have some of the highest rates of suicide, and that happier countries according to the world happiness rankings, had a lower suicide rate. It would be really interesting to investigate more of these unhappy countries' suicide rates; however, many of these countries are in Africa and the data for much of this continent is missing. We could also have It is also interesting to note that the US ranked #36 out of the 100 countries analyzed with a rate of 13.8 suicides per 100k population.
+Analyzing this dataset has shown many new links between different variables and suicide rates. To begin, we looked at countries with the highest suicide rates per 100k population. It was important to look by 100k population rather than just the number of suicides to account for population differences between countries. We found that countries in Eastern Europe have some of the highest rates of suicide, and that happier countries according to the world happiness rankings, had a lower suicide rate. It would be really interesting to investigate more of these unhappy countries' suicide rates; however, many of these countries are in Africa and the data for much of this continent is missing. It is also interesting to note that the US ranked #37 out of the 100 countries analyzed with a rate of 12.8 suicides per 100k population.
 
-Our anaylsis of the correlation between suicide rate and GDP per capita ($) showed that there was little to no correlation between the two variables. Even after filtering the data for just 2015, the linear regression fitted to the model showed that there was still no good correlation between the two variables. This indicates that a countries GDP per capita is not indicative of whether or not they have a high or low suicide rate.
+Our anaylsis of the correlation between suicide rate and GDP per capita ($) showed that there was little to no correlation between the two variables. After filtering the data for just 2015, the linear regression fitted to the model showed that there was a slightly stronger correlation between the two variables. This indicates that a countries GDP per capita is only somewhat of an indicator of whether or not they have a high or low suicide rate.
 
 We also preformed an analysis on the link between different generations and suicide rates. To do this analysis we made a boxplot graph. The boxplot showed a clear trend: that older generation have had larger suicide rates than later generations. However, there is a caveat to this conclusion since many of the generations included in the boxplots are still alive, and thus their aggregate suicide rate over their whole lifetime is not complete yet.
 In the analysis of generations we also found an interesting outlier in the Silent Generation. This cluster of outliers was found to all be data points from Korean men in 2003 to 2015. Upon further exploration we found that the cause was financial stresses placed upon older populations in South Korea. 
 
 Furthermore, we performed an analysis on the link between age and suicide rate. We found, through boxplots, that the older someone is, the more likely they are to commit suicide. It is important to look at both age and generation because people can commit suicide at any age during their life and it would still count toward the same generation.
 
-We were then curious whether the US would show increased rates of suicide among the youngest age group in recent years due to an increase in mental health issues we had heard a lot about. Though our data certainly does not prove any causation between increased mental health issues in school age children and an increase in the proportion of suicides, our data did find a peak in suicide rates among 5-14 year olds in the US in 2014. 
+We were then curious whether the US would show increased rates of suicide among the youngest age group included in this dataset (5-14 years old) in recent years due to an increase in mental health issues we had heard a lot about. Though our data certainly does not prove any causation between increased mental health issues in school age children and an increase in the proportion of suicides, our data did find a peak in suicide rates among 5-14 year olds in the US in 2014. 
 
-Next, we looked at average number of suicides/100k population over time for each year. We observed that over time, suicides rates changed over time. For suicides worldwide, we saw an increase and then a decrease from 1985-2015. We contributed this to different circumstances like economic crises characteristic of each year which influenced suicide rates.
+Next, we looked at average number of suicides/100k population over time for each year. We observed that over time, there were vast fluctuations in suicides rates. For suicides worldwide, we saw an increase from 1985 to 1995 and then a decrease from 1995 to 2015.
 
-We also examined average number of suicides/100k population in the United States and observed higher average and peak suicides in the United States compared to world suicide rates. The United States also has opposite direction in increases and decreases in suicide rates compared to world rates. We observed an increase in suicide rates in the United States that began around 2008 and grew steadily which may have been caused by the financial crisis that involved economic hardships in 2007 and a crash in 2008 which led to a sustained period of home foreclosures, debt, and unemployment. Research indicates that suicides may have been tied to these factors during the economic crisis.
+We also examined average number of suicides/100k population in the United States. The United States showed the opposite direction of increases and decreases in suicide rates compared to world rates. With decreases from 1985 to 2000 and increases from 2000 to 2015. We observed an increase in suicide rates in the United States that really accelerated around 2007 and grew steadily which may have been caused by the financial crisis that involved economic hardships in 2007 and a crash in 2008 which led to a sustained period of home foreclosures, debt, and unemployment. Research indicates that suicides may have been tied to these factors during the economic crisis. It would be interesting to see if, now that the economy has recovered, suicide rates have decreased again. 
 
 Additionally, we looked at the relationship between suicides and sex. Men were around 3.5 times more likely to commit suicide than females. This may be contributed to how males were more likely to die from suicide attempts because they used lethal means to commit suicide (like using guns), whereas women were less likely to die from attempts because they were more likely to use pills. Men were also found to hide their feelings because of masculinity ideals, using suicide as an escape. 
 
-When coming to these conclusions and interpreting these data, one must keep in mind the data set. For instance, there is no detailed collection information about the method as it is a compilation of other data. Furthermore, it is known that suicides sometimes go falsely reported or unreported at all- for instance, suicides have been occasionally reported as farming or hunting accidents- so the results of this data analysis must be interpreted with caution. It has also come to our attention that not every nation is represented, which will limit our ability to truly compare each nation. We also had to take out the year 2016 becuase the data did not seem to be complete. When analyzing the data from a dataset, one must take into account for missing and incorrect data. 
+When coming to these conclusions and interpreting these data, one must keep in mind the data set. For instance, there is no detailed collection information about the method as it is a compilation of other data. Furthermore, it is known that suicides sometimes go falsely reported or unreported at all- for instance, suicides have been occasionally reported as farming or hunting accidents- so the results of this data analysis must be interpreted with caution. It has also come to our attention that not every nation is represented, which will limit our ability to truly compare each nation. We also had to take out the year 2016 becuase the data did not seem to be complete. 
 
-While there are not many things we would approach differently, there are many further directions this analysis could go. One major thing we would do differently would be to parse the data differently so that all variables can be used when fitting the linear model without crashing R Studio or having to delete variables. There are so many observations in this dataset particularly because each generation, sex, year and country are recorded separately so reorganizing the data could be very helpful. An idea for another direction the project can lead would be to organize the contries by region, for example "Weatern Europe", "Eastern Europe", "Asia", etc. and compare regions. Furthermore, it would be really interesting to collect data for the missing countries, particularly in Africa. Many of these missing countries in Africa are known to be the least happy countries according to the World Happiness Report and this would be interesting data to examine. Lastly, the shiny app could have many more features added, such as looking at multiple countries at a time or multiple variables at a time.  
+While there are not many things we would approach differently, there are many further directions this analysis could go. One major thing we would do differently would be to parse the data differently so that all variables can be used when fitting the linear model without crashing R Studio or having to delete variables. There are so many observations in this dataset particularly because each generation, sex, year and country are recorded separately so reorganizing the data could be very helpful. An idea for another direction the project can lead would be to organize the contries by region, for example "Western Europe", "Eastern Europe", "Asia", etc. and compare regions. Furthermore, it would be really interesting to collect data for the missing countries, particularly in Africa. Many of these missing countries in Africa are known to be the least happy countries according to the World Happiness Report and this would be interesting data to examine. Lastly, the shiny app could have many more features added, such as looking at multiple countries at a time or multiple variables at a time.  
  
 
 ### Citations
